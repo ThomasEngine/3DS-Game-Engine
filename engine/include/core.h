@@ -1,42 +1,38 @@
 #pragma once
-#include <citro2d.h>
+#include <3ds.h>
 #include <citro3d.h>
-#include <stdbool.h>
+#include <citro2d.h>
 
-typedef struct {
-    // Called once at startup
-    bool (*init)(void* user_data);
-    
-    // Called every frame
-    void (*update)(void* user_data);
-    void (*render)(void* user_data);
-    
-    // Called at shutdown
-    void (*shutdown)(void* user_data);
-} GameCallbacks;
+// Abstract interface for the game
+class IGame {
+public:
+    virtual ~IGame() = default;
+    virtual bool init() = 0;
+    virtual void update() = 0;
+    virtual void render() = 0;
+    virtual void shutdown() = 0;
+};
 
-typedef struct {
+class Engine {
+public:
+    Engine(IGame* game);
+    ~Engine();
+
+    void run();
+
+    // Query engine state (for game to use)
+    C3D_RenderTarget* getTopTarget()    const { return top; }
+    C3D_RenderTarget* getBottomTarget() const { return bottom; }
+    float             getDeltaTime()    const { return delta_time; }
+    bool              shouldExit()      const { return !running; }
+    void              requestExit()           { running = false; }
+
+private:
     C3D_RenderTarget* top;
     C3D_RenderTarget* bottom;
-    C2D_TextBuf text_buf;
-    
-    GameCallbacks app;
-    void* user_data;
-    
-    bool running;
-    float delta_time;
-} Engine;
+    C2D_TextBuf       text_buf;
 
-// Engine lifecycle
-Engine* engine_create(const GameCallbacks* app, void* user_data);
-void engine_destroy(Engine* engine);
-
-// Run the main loop
-void engine_run(Engine* engine);
-
-// Query engine state (for game to use)
-C3D_RenderTarget* engine_get_top_target(Engine* engine);
-C3D_RenderTarget* engine_get_bottom_target(Engine* engine);
-float engine_get_delta_time(Engine* engine);
-bool engine_should_exit(Engine* engine);
-void engine_request_exit(Engine* engine);
+    IGame* game;
+    bool   running;
+    float  delta_time;
+};

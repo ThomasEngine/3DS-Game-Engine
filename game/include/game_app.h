@@ -1,29 +1,18 @@
 ﻿#pragma once
-//#include "ecs.h"  // TODO: implement ECS later
-#include <3ds.h>
+#include "core.h"
 #include "graphics.h"
 
-class GameApp {
-private:
-   //ECS_World* world;      // TODO: implement when ECS is ready
-   GraphicsAssets* assets;
-   
-   // Game systems
-   //class Player* player;
-   class Level* level;
-    
+class GameApp : public IGame {
 public:
     GameApp();
     ~GameApp();
-    
-    bool init();
-    void update();
-    void render();
-    void shutdown();
-    
-    // Static callbacks for C interface
-    static bool s_init(void* user_data);
-    static void s_update(void* user_data);
-    static void s_render(void* user_data);
-    static void s_shutdown(void* user_data);
+
+    bool init()     override;
+    void update()   override;
+    void render()   override;
+    void shutdown() override;
+
+private:
+    GraphicsAssets* assets;
+    class Level*    level;
 };
