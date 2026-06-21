@@ -1,6 +1,9 @@
 ﻿#include "sprite.h"
 
+#include "settings.h"
+
 void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteIndex) {
+    totalSprites = C2D_SpriteSheetCount(spriteSheet);
     sheet        = spriteSheet;
     currentFrame = spriteIndex;
     currentAnim  = nullptr;
@@ -9,13 +12,19 @@ void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteIndex) {
     finished     = false;
 
     C2D_SpriteFromSheet(&sprite, sheet, spriteIndex);
-    C2D_SpriteSetCenter(&sprite, 0.5f, 0.5f);
+    C2D_SpriteSetCenter(&sprite, 0.f, 0.f);
+
+    setScale(ENTITY_SCALE, ENTITY_SCALE);
 }
 
 void Sprite::playAnimation(const Animation* anim, bool restart) {
     if (currentAnim == anim && !restart) return;
 
     currentAnim    = anim;
+    if (currentAnim->frameCount + currentAnim->frameCount > totalSprites) {
+        currentAnim->frameCount = totalSprites;
+
+    }
     animFrameIndex = 0;
     animTimer      = 0.0f;
     finished       = false;
@@ -34,7 +43,7 @@ void Sprite::update(float dt) {
     animTimer += dt;
 
     if (animTimer >= currentAnim->frameTime) {
-        animTimer -= currentAnim->frameTime;
+        animTimer = 0.0f;
         animFrameIndex++;
 
         if (animFrameIndex >= currentAnim->frameCount) {
@@ -72,5 +81,8 @@ void Sprite::draw() const {
 
 void Sprite::updateFrame() {
     size_t index = currentAnim->startFrame + animFrameIndex;
+    if (index >= totalSprites) return;
+    C2D_DrawParams param = sprite.params;
     C2D_SpriteFromSheet(&sprite, sheet, index);
+    sprite.params = param;
 }

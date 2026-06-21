@@ -3,6 +3,9 @@
 
 class SpatialGrid {
 public:
+    static const int MAX_W = 32;
+    static const int MAX_H = 32;
+
     void init(int w, int h);
 
     void clear();
@@ -21,9 +24,6 @@ public:
     void setHeight(int h) { if (height < MAX_H) height = h; }
 
 private:
-    static const int MAX_W = 32;
-    static const int MAX_H = 32;
-
     Entity cells[MAX_W][MAX_H];
     int width  = 0;
     int height = 0;

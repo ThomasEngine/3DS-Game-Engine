@@ -3,8 +3,8 @@
 #include <citro2d.h>
 
 struct Animation {
-    size_t startFrame;
-    size_t frameCount;
+    mutable size_t startFrame;
+    mutable size_t frameCount;
     float  frameTime;
     bool   loop;
 };
@@ -32,13 +32,14 @@ public:
     void setScale(float x, float y);
     void setRotation(float angle);
     void setOrigin(float x, float y);
+    void setCurrentFrame(size_t frame) {animFrameIndex = currentFrame; currentFrame = frame;}
 
     float getX() const { return sprite.params.pos.x; }
     float getY() const { return sprite.params.pos.y; }
     float getWidth() const { return sprite.params.pos.w; }
     float getHeight() const { return sprite.params.pos.h; }
     float getRotation() const { return sprite.params.angle; }
-    
+
     void draw() const;
     
 private:
@@ -50,6 +51,6 @@ private:
     const Animation* currentAnim = nullptr;
     float animTimer;
     size_t animFrameIndex;
+    size_t totalSprites;
     bool finished;
-    
 };

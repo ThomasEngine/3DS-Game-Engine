@@ -1,7 +1,9 @@
 ﻿#pragma once
 #include "core.h"
-#include "graphics.h"
+#include "player.h"
 
+class GraphicsAssets;
+class Level;
 class GameApp : public IGame {
 public:
     GameApp();
@@ -13,7 +15,8 @@ public:
     void shutdown() override;
 
 private:
-    ECSWorld* world;
-    GraphicsAssets* assets;
-    class Level*    level;
+    ECSWorld* world = nullptr;
+    GraphicsAssets* assets = nullptr;
+    Level* level = nullptr;
+    Player player;
 };

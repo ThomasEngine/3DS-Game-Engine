@@ -1,6 +1,12 @@
 #include "core.h"
+
+#include <algorithm>
+
 #include "input.h"
 #include <stdio.h>
+#include <time.h>
+
+static u64 lastTick = 0;
 
 Engine::Engine(IGame* game) : game(game), running(false), delta_time(0.016f) {
     renderer.init();
@@ -19,6 +25,13 @@ void Engine::run() {
     running = true;
 
     while (aptMainLoop() && running) {
+        // delta time
+        u64 currentTick = svcGetSystemTick();
+        u64 deltaTick = currentTick - lastTick;
+        lastTick = currentTick;
+
+        float delta_time = std::clamp((float)deltaTick / SYSCLOCK_ARM11, 0.1f, 1.0f);
+
         // Input
         hidScanInput();
         u32 keys_down = hidKeysDown();

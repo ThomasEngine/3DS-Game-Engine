@@ -18,6 +18,7 @@ enum ComponentFlags : uint32_t {
     COMP_HEALTH = 1 << 3,
     COMP_AI = 1 << 4,
     COMP_PATROL = 1 << 5,
+    COMP_GRAVITY = 1 << 6
 };
 
 // Components
@@ -29,6 +30,12 @@ struct PositionComponent {
 struct VelocityComponent {
     float dx = 0.0f;
     float dy = 0.0f;
+};
+
+struct GravityComponent {
+    float weight     = 1.0f;
+    float jumpForce  = 5.0f;
+    int   grounded   = 0;
 };
 
 enum RenderLayer : uint32_t {
@@ -79,12 +86,11 @@ public:
     // Component arrays
     std::array<PositionComponent, MAX_ENTITIES> position;
     std::array<VelocityComponent, MAX_ENTITIES> velocity;
+    std::array<GravityComponent, MAX_ENTITIES> gravity;
     std::array<SpriteComponent, MAX_ENTITIES> sprite;
     std::array<HealthComponent, MAX_ENTITIES> health;
     std::array<AIComponent, MAX_ENTITIES> ai;
     std::array<PatrolComponent, MAX_ENTITIES> patrol;
-
-
 
     // Entity management
     Entity createEntity();

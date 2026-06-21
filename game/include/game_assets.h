@@ -9,9 +9,10 @@ enum SpriteIndex {
 };
 
 enum TileIndex {
-    TILE_FLOOR     = 0,
-    TILE_WALL      = 1,
-    TILE_BREAKABLE = 2,
+    TILE_FLOOR      = 0,
+    TILE_WALL       = 1,
+    TILE_BREAKABLE  = 2,
+    TILE_FLOOR_ALT  = 3,
 };
 
 // Game specific asset helpers
