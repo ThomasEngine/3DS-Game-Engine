@@ -7,12 +7,13 @@ public:
     GameApp();
     ~GameApp();
 
-    bool init()     override;
-    void update()   override;
-    void render()   override;
+    bool init(ECSWorld *world, Renderer &ren) override;
+    void update(float deltaTime)   override;
+    void render(Renderer& ren)   override;
     void shutdown() override;
 
 private:
+    ECSWorld* world;
     GraphicsAssets* assets;
     class Level*    level;
 };

@@ -1,15 +1,14 @@
 #pragma once
-#include <3ds.h>
-#include <citro3d.h>
-#include <citro2d.h>
+#include "Renderer.h"
+#include "ecs.h"
 
 // Abstract interface for the game
 class IGame {
 public:
     virtual ~IGame() = default;
-    virtual bool init() = 0;
-    virtual void update() = 0;
-    virtual void render() = 0;
+    virtual bool init(ECSWorld *world, Renderer &ren) = 0;
+    virtual void update(float deltaTime) = 0;
+    virtual void render(Renderer& ren) = 0;
     virtual void shutdown() = 0;
 };
 
@@ -20,17 +19,14 @@ public:
 
     void run();
 
-    // Query engine state (for game to use)
-    C3D_RenderTarget* getTopTarget()    const { return top; }
-    C3D_RenderTarget* getBottomTarget() const { return bottom; }
-    float             getDeltaTime()    const { return delta_time; }
-    bool              shouldExit()      const { return !running; }
-    void              requestExit()           { running = false; }
+    float getDeltaTime() const { return delta_time; }
+    bool shouldExit()      const { return !running; }
+    void requestExit() { running = false; }
+	Renderer& getRenderer() { return renderer; }
 
 private:
-    C3D_RenderTarget* top;
-    C3D_RenderTarget* bottom;
-    C2D_TextBuf       text_buf;
+	Renderer renderer;
+    ECSWorld world;
 
     IGame* game;
     bool   running;

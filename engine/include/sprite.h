@@ -1,0 +1,55 @@
+﻿#pragma once
+#include <3ds.h>
+#include <citro2d.h>
+
+struct Animation {
+    size_t startFrame;
+    size_t frameCount;
+    float  frameTime;
+    bool   loop;
+};
+
+class Sprite
+{
+public:
+    Sprite() = default;
+    ~Sprite() = default;
+    
+    void init(C2D_SpriteSheet sheet, size_t spriteIndex);
+    void destroy();
+    
+    // Play an animation
+    void playAnimation(const Animation* anim, bool restart = false);
+    void stopAnimation();
+    
+    // Update every tick
+    void update(float dt);
+    
+    bool isFinished() const { return finished; }
+    
+    // Transform
+    void setPos(float x, float y);
+    void setScale(float x, float y);
+    void setRotation(float angle);
+    void setOrigin(float x, float y);
+
+    float getX() const { return sprite.params.pos.x; }
+    float getY() const { return sprite.params.pos.y; }
+    float getWidth() const { return sprite.params.pos.w; }
+    float getHeight() const { return sprite.params.pos.h; }
+    float getRotation() const { return sprite.params.angle; }
+    
+    void draw() const;
+    
+private:
+    void updateFrame();
+    
+    C2D_Sprite sprite;
+    C2D_SpriteSheet sheet = nullptr;
+    size_t currentFrame;
+    const Animation* currentAnim = nullptr;
+    float animTimer;
+    size_t animFrameIndex;
+    bool finished;
+    
+};
