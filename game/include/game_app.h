@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "core.h"
 #include "player.h"
+#include "systems/collision_system.h"
 
 class GraphicsAssets;
 class Level;
@@ -15,6 +16,8 @@ public:
     void shutdown() override;
 
 private:
+    void onCollision(CollisionEvent event, ECSWorld& world);
+
     ECSWorld* world = nullptr;
     GraphicsAssets* assets = nullptr;
     Level* level = nullptr;

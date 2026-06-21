@@ -12,7 +12,7 @@ void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteIndex) {
     finished     = false;
 
     C2D_SpriteFromSheet(&sprite, sheet, spriteIndex);
-    C2D_SpriteSetCenter(&sprite, 0.f, 0.f);
+    C2D_SpriteSetCenter(&sprite, 0.5f, 0.5f);
 
     setScale(ENTITY_SCALE, ENTITY_SCALE);
 }
@@ -76,6 +76,11 @@ void Sprite::setOrigin(float x, float y) {
 }
 
 void Sprite::draw() const {
+    // for debug purpeses draw red rect behind sprite
+    // C2D_DrawParams param = sprite.params;
+    // C2D_DrawRectSolid(param.pos.x,param.pos.y,0,param.pos.w,param.pos.h, color);
+    //
+
     C2D_DrawSprite(&sprite);
 }
 

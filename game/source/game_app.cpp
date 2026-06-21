@@ -6,8 +6,10 @@
 #include "systems/animation_system.h"
 #include "systems/physics_system.h"
 #include "systems/render_system.h"
+#include "systems/collision_system.h"
 #include "graphics.h"
 #include "level_renderer.h"
+
 
 
 GameApp::GameApp() : assets(nullptr), level(nullptr), world(nullptr) {}
@@ -26,7 +28,7 @@ bool GameApp::init(ECSWorld *world, Renderer &renderer) {
     }
 
     // Initialize game systems
-    player.init(*world, assets, 1, 1);
+    player.init(*world, assets, 1.f, 1.f);
 
     level = new Level();
     if (level) {
@@ -38,9 +40,30 @@ bool GameApp::init(ECSWorld *world, Renderer &renderer) {
 void GameApp::update(float deltaTime) {
     player.handleInput(*world);
 
+    collision_system_update(
+        *world,
+        level->getGrid(),
+        [&](int x, int y) {
+            return level->isWalkable(x, y);
+        },
+        [&](CollisionEvent event, ECSWorld& world) {
+            onCollision(event, world);
+
+        },
+        deltaTime
+    );
 
     update_physics_system(*world, deltaTime);
     update_animation_system(*world, deltaTime);
+}
+
+void GameApp::onCollision(CollisionEvent event, ECSWorld& world) {
+    Entity playerEntity = player.getEntity();
+    Entity other = INVALID_ENTITY;
+
+    if (event.a == playerEntity) other = event.b;
+    if (event.b == playerEntity) other = event.a;
+    if (other == INVALID_ENTITY) return;
 }
 
 void GameApp::render(Renderer& renderer) {

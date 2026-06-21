@@ -74,12 +74,12 @@ void Level::loadDefault() {
         for (int y = 2; y < height - 1; y += 2)
             tiles[x][y] = TILE_WALL;
 
-    // breakable blocks
-    for (int x = 1; x < width - 1; x++)
-        for (int y = 1; y < height - 1; y++)
-            if (tiles[x][y] == TILE_FLOOR)
-                if (!(x <= 2 && y <= 2)) // keep player spawn clear
-                    tiles[x][y] = TILE_BREAKABLE;
+    // // breakable blocks
+    // for (int x = 1; x < width - 1; x++)
+    //     for (int y = 1; y < height - 1; y++)
+    //         if (tiles[x][y] == TILE_FLOOR)
+    //             if (!(x <= 2 && y <= 2)) // keep player spawn clear
+    //                 tiles[x][y] = TILE_BREAKABLE;
 }
 
 bool Level::load(const char* path) {

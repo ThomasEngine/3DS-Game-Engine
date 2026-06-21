@@ -12,9 +12,9 @@ constexpr Entity INVALID_ENTITY = MAX_ENTITIES;
 // Component flags
 enum ComponentFlags : uint32_t {
     COMP_NONE = 0,
-    COMP_POSITION = 1 << 0,
-    COMP_VELOCITY = 1 << 1,
-    COMP_SPRITE = 1 << 2,
+    COMP_POSITION = 1 << 0, // 10000000
+    COMP_VELOCITY = 1 << 1, // 01000000
+    COMP_SPRITE = 1 << 2, // 001000000
     COMP_HEALTH = 1 << 3,
     COMP_AI = 1 << 4,
     COMP_PATROL = 1 << 5,

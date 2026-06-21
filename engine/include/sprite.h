@@ -41,6 +41,8 @@ public:
     float getRotation() const { return sprite.params.angle; }
 
     void draw() const;
+
+    uint32_t color = C2D_Color32(0,255,0,255);
     
 private:
     void updateFrame();
