@@ -3,11 +3,20 @@
 #include <citro2d.h>
 #include <citro3d.h>
 
+struct Camera {
+    float x = 0.0f;
+    float y = 0.0f;
+    float zoom = 1.0f;
+};
+
 enum Screens
 {
     Top,
     Bottom
 };
+
+
+
 
 class Renderer
 {
@@ -29,11 +38,14 @@ public:
     
     void clearTop(u32 color);
     void clearBottom(u32 color);
-    
+
+    Camera& getCamera() { return camera; }
     
 private:
     C3D_RenderTarget* top;
     C3D_RenderTarget* bottom;
     C2D_TextBuf       text_buf;
+
+    Camera camera;
     
 };

@@ -10,20 +10,21 @@ add_definitions(
 
 include_directories(
         engine/include
-        game/include
+        engine/include/systems
+        games/bomberman/include
+        games/platformer/include
+        games/topdown/include
+        games/blank/include
         C:/devkitPro/libctru/include
         C:/devkitPro/devkitARM/arm-none-eabi/include
-        C:/devkitPro/devkitARM/arm-none-eabi/include/c++/15.2.0
-        C:/devkitPro/devkitARM/arm-none-eabi/include/c++/15.2.0/arm-none-eabi
-        C:/devkitPro/devkitARM/lib/gcc/arm-none-eabi/15.2.0/include
 )
 
 # Glob everything recursively
 file(GLOB_RECURSE SOURCES
         "engine/source/*.cpp"
         "engine/include/*.h"
-        "game/source/*.cpp"
-        "game/include/*.h"
+        "games/*/source/*.cpp"
+        "games/*/include/*.h"
 )
 
 add_executable(bomberman ${SOURCES})

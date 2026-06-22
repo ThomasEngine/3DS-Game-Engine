@@ -8,7 +8,7 @@
 
 static u64 lastTick = 0;
 
-Engine::Engine(IGame* game) : game(game), running(false), delta_time(0.016f) {
+Engine::Engine() :  running(false), delta_time(0.016f) {
     renderer.init();
 }
 
@@ -17,11 +17,6 @@ Engine::~Engine() {
 }
 
 void Engine::run() {
-    if (!game->init(&world, renderer)) {
-        printf("Game initialization failed!\n");
-        return;
-    }
-
     running = true;
 
     while (aptMainLoop() && running) {
@@ -30,7 +25,7 @@ void Engine::run() {
         u64 deltaTick = currentTick - lastTick;
         lastTick = currentTick;
 
-        float delta_time = std::clamp((float)deltaTick / SYSCLOCK_ARM11, 0.1f, 1.0f);
+        float delta_time = std::clamp((float)deltaTick / SYSCLOCK_ARM11, 0.0f, 0.1f);
 
         // Input
         hidScanInput();
@@ -48,13 +43,19 @@ void Engine::run() {
         }
 
         // Game update
-        game->update(delta_time);
+        sceneManager.update(delta_time);
+
 
         // Rendering
         renderer.beginFrame();
-        game->render(renderer);
+        renderer.beginTopScreen();
+        sceneManager.renderTop(renderer);
+        renderer.beginBottomScreen();
+        sceneManager.renderBottom(renderer);
         renderer.endFrame();
     }
+}
 
-    game->shutdown();
+void Engine::setScene(BaseScene* scene) {
+    sceneManager.changeScene(scene);
 }

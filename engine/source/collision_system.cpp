@@ -35,7 +35,7 @@ void collision_system_update(ECSWorld& world, SpatialGrid& grid, WalkableCallbac
 
     if (isWalkable) {
         const float HALF = 0.47f;
-        const float SNAP = 1;
+        const float SNAP = 5;
 
         // x movement
         if (world.velocity[e].dx != 0.0f) {

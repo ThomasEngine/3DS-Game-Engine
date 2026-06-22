@@ -1,23 +1,33 @@
 #pragma once
 #include "Renderer.h"
-#include "ecs.h"
+#include "scene_manager.h"
 
-// Abstract interface for the game
-class IGame {
+// Abstract scene interface
+// engine/include/scene.h (or core.h)
+class BaseScene {
 public:
-    virtual ~IGame() = default;
-    virtual bool init(ECSWorld *world, Renderer &ren) = 0;
-    virtual void update(float deltaTime) = 0;
-    virtual void render(Renderer& ren) = 0;
-    virtual void shutdown() = 0;
+    virtual ~BaseScene() = default;
+
+    virtual void enter() {}
+    virtual void exit() {}
+    virtual void update(float dt) = 0;
+    virtual void renderTop(Renderer& renderer) = 0;
+    virtual void renderBottom(Renderer& renderer) = 0;
+
+    void setManager(SceneManager* mgr) { manager = mgr; }
+
+protected:
+    SceneManager* manager = nullptr;
 };
 
 class Engine {
 public:
-    Engine(IGame* game);
+    Engine();
     ~Engine();
 
     void run();
+
+    void setScene(BaseScene* scene);
 
     float getDeltaTime() const { return delta_time; }
     bool shouldExit()      const { return !running; }
@@ -26,9 +36,8 @@ public:
 
 private:
 	Renderer renderer;
-    ECSWorld world;
+    SceneManager sceneManager;
 
-    IGame* game;
     bool   running;
     float  delta_time;
 };

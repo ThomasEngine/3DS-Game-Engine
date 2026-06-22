@@ -10,6 +10,9 @@ bool Renderer::init()
     
     top = C2D_CreateScreenTarget(GFX_TOP, GFX_LEFT);
     bottom = C2D_CreateScreenTarget(GFX_BOTTOM, GFX_LEFT);
+    //consoleInit(GFX_BOTTOM, nullptr);
+
+    // set bottom to console
     
     text_buf = C2D_TextBufNew(4096);
     
@@ -54,6 +57,8 @@ void Renderer::drawRect(float x, float y, float w, float h, u32 color)
 
 void Renderer::drawText(const char* text, float x, float y, u32 color, float scale)
 {
+    C2D_TextBufClear(text_buf);  // clear before reusing
+
     C2D_Text c2dText;
     C2D_TextParse(&c2dText, text_buf, text);
     C2D_TextOptimize(&c2dText);

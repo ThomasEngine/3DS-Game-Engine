@@ -1,8 +1,0 @@
--f rgba8888
--z auto
---atlas
-
-tiles/sliced/tile_floor.png
-tiles/sliced/tile_wall.png
-tiles/sliced/tile_breakable.png
-tiles/sliced/tile_floor_alt.png
