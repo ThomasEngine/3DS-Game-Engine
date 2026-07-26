@@ -1,11 +1,6 @@
 ﻿#include "tiled_loader.h"
 #include "cJSON.h"
-// engine/source/tiled_loader.cpp
-#include "tiled_loader.h"
-#include "cJSON.h"
-
 #include <cstdio>
-#include <cstdlib>
 
 // TILED MAP LOADER MADE WITH AI
 bool loadTiledMap(const std::string& filePath, TiledMap& out) {
