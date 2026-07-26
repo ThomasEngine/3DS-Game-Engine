@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.2" orientation="orthogonal" renderorder="right-down" width="13" height="13" tilewidth="16" tileheight="16" infinite="0" nextlayerid="4" nextobjectid="7">
+ <editorsettings>
+  <export target="../../romfs/levels/1vs1_level.tmj" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" source="bomberman_tileset.tsx"/>
+ <layer id="2" name="Ground" width="13" height="13">
+  <data encoding="csv">
+2,2,2,2,2,2,2,2,2,2,2,2,2,
+2,1,4,1,1,1,1,1,1,1,1,1,2,
+2,1,2,1,2,1,2,1,2,1,2,1,2,
+2,1,1,4,1,1,4,1,1,1,1,1,2,
+2,1,2,1,2,1,2,1,2,1,2,1,2,
+2,1,1,1,1,4,4,1,1,4,1,1,2,
+2,1,2,1,2,1,2,1,2,4,2,1,2,
+2,1,1,1,1,1,1,4,1,4,1,1,2,
+2,1,2,1,2,1,2,1,2,1,2,1,2,
+2,1,1,1,1,4,1,4,1,1,1,1,2,
+2,1,2,1,2,1,2,1,2,1,2,1,2,
+2,1,1,1,1,1,1,1,1,1,1,1,2,
+2,2,2,2,2,2,2,2,2,2,2,2,2
+</data>
+ </layer>
+ <layer id="1" name="Collision" width="13" height="13">
+  <data encoding="csv">
+2,2,2,2,2,2,2,2,2,2,2,2,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,
+2,0,2,0,2,0,2,0,2,0,2,0,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,
+2,0,2,0,2,0,2,0,2,0,2,0,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,
+2,0,2,0,2,0,2,0,2,0,2,0,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,
+2,0,2,0,2,0,2,0,2,0,2,0,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,
+2,0,2,0,2,0,2,0,2,0,2,0,2,
+2,0,0,0,0,0,0,0,0,0,0,0,2,
+2,2,2,2,2,2,2,2,2,2,2,2,2
+</data>
+ </layer>
+ <objectgroup id="3" name="Spawns">
+  <object id="4" x="127.131" y="-29.036">
+   <point/>
+  </object>
+  <object id="6" name="player_spawn" x="24" y="24">
+   <point/>
+  </object>
+ </objectgroup>
+</map>
