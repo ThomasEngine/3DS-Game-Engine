@@ -1,8 +1,7 @@
 ﻿#include "sprite.h"
 
-#include "settings.h"
 
-void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteIndex) {
+void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteIndex, const EngineSettings& settings) {
     totalSprites = C2D_SpriteSheetCount(spriteSheet);
     sheet        = spriteSheet;
     currentFrame = spriteIndex;
@@ -14,7 +13,7 @@ void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteIndex) {
     C2D_SpriteFromSheet(&sprite, sheet, spriteIndex);
     C2D_SpriteSetCenter(&sprite, 0.5f, 0.5f);
 
-    setScale(ENTITY_SCALE, ENTITY_SCALE);
+    setScale(settings.entityScale, settings.entityScale);
 }
 
 void Sprite::playAnimation(const Animation* anim, bool restart) {

@@ -1,0 +1,25 @@
+﻿{
+  "output_dir": "sliced",
+  "sheets": {
+    "tiles": {
+      "mode": "grid",
+      "file": "tileset.png",
+      "cell_size": 16
+    },
+    "player": {
+      "mode": "strips",
+      "cell_size": 32,
+      "strips": [
+        { "name": "idle", "file": "Idle.png" },
+        { "name": "run",  "file": "Run.png" },
+        { "name": "jump", "file": "Jump.png" },
+        { "name": "fall", "file": "Fall.png" }
+      ]
+    }
+  },
+  "backgrounds": [
+    "Background1.png",
+    "Background2.png",
+    "Background3.png"
+  ]
+}

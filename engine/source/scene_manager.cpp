@@ -39,8 +39,11 @@ void SceneManager::applyPendingSwitch() {
     pending = nullptr;
     hasPending = false;
 
+    settings = engine_default_settings;
+
     if (current) {
         current->setManager(this);
+        current->configurateSettings(settings);
         current->enter();
     }
 }

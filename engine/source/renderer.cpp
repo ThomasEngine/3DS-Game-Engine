@@ -71,5 +71,5 @@ void Renderer::clearTop(u32 color)
 }
 void Renderer::clearBottom(u32 color)
 {
-    C2D_TargetClear(top, color);                      
+    C2D_TargetClear(bottom, color);
 }

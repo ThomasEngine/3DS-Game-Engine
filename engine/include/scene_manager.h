@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "engine_settings.h"
 
 class BaseScene;
 class Renderer;
@@ -17,10 +18,16 @@ public:
 
     BaseScene* getCurrent() const { return current; }
 
+    void setDefaultSettings(EngineSettings& settings);
+    EngineSettings& getSettings() { return settings; }
+
 private:
     void applyPendingSwitch();
 
     BaseScene* current = nullptr;
     BaseScene* pending = nullptr;
     bool   hasPending = false;
+
+    EngineSettings engine_default_settings;
+    EngineSettings settings;
 };

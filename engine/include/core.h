@@ -1,9 +1,9 @@
 #pragma once
 #include "Renderer.h"
 #include "scene_manager.h"
+#include "engine_settings.h"
 
 // Abstract scene interface
-// engine/include/scene.h (or core.h)
 class BaseScene {
 public:
     virtual ~BaseScene() = default;
@@ -13,6 +13,8 @@ public:
     virtual void update(float dt) = 0;
     virtual void renderTop(Renderer& renderer) = 0;
     virtual void renderBottom(Renderer& renderer) = 0;
+
+    virtual void configurateSettings(EngineSettings& settings) {}
 
     void setManager(SceneManager* mgr) { manager = mgr; }
 
@@ -33,6 +35,8 @@ public:
     bool shouldExit()      const { return !running; }
     void requestExit() { running = false; }
 	Renderer& getRenderer() { return renderer; }
+
+    void setDefaultSettings(EngineSettings& settings);
 
 private:
 	Renderer renderer;

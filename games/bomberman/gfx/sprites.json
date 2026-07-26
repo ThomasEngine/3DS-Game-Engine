@@ -1,0 +1,19 @@
+﻿{
+  "spritesheet": "SpriteSheet.png",
+  "cell_size": 16,
+  "output_dir": "sliced",
+  "sheets": {
+    "sprites": [
+      { "name": "player_left",  "col": 0, "row": 0, "frames": 3 },
+      { "name": "player_down",  "col": 3, "row": 0, "frames": 3 },
+      { "name": "player_right", "col": 6, "row": 0, "frames": 3 },
+      { "name": "player_up",    "col": 9, "row": 0, "frames": 3 }
+    ],
+    "tiles": [
+      { "name": "tile_floor",     "col": 3, "row": 4 },
+      { "name": "tile_wall",      "col": 3, "row": 3 },
+      { "name": "tile_breakable", "col": 4, "row": 3 },
+      { "name": "tile_floor_alt", "col": 4, "row": 4 }
+    ]
+  }
+}

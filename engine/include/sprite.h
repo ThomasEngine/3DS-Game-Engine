@@ -2,6 +2,8 @@
 #include <3ds.h>
 #include <citro2d.h>
 
+#include "engine_settings.h"
+
 struct Animation {
     mutable size_t startFrame;
     mutable size_t frameCount;
@@ -15,7 +17,7 @@ public:
     Sprite() = default;
     ~Sprite() = default;
     
-    void init(C2D_SpriteSheet sheet, size_t spriteIndex);
+    void init(C2D_SpriteSheet sheet, size_t spriteIndex, const EngineSettings& settings);
     void destroy();
     
     // Play an animation

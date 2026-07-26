@@ -59,3 +59,8 @@ void Engine::run() {
 void Engine::setScene(BaseScene* scene) {
     sceneManager.changeScene(scene);
 }
+
+void Engine::setDefaultSettings(EngineSettings& settings)
+{
+    sceneManager.setDefaultSettings(settings);
+}

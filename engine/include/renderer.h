@@ -7,6 +7,9 @@ struct Camera {
     float x = 0.0f;
     float y = 0.0f;
     float zoom = 1.0f;
+
+    static constexpr float SCREEN_WIDTH = 400.0f;
+    static constexpr float SCREEN_HEIGHT = 240.0f;
 };
 
 enum Screens
