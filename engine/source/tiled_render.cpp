@@ -44,7 +44,7 @@ void draw_tiled_map(const TiledMap &map, const Camera &cam, C2D_SpriteSheet tile
                 int sprite = tile_index_from_gid(layer.tiles[idx]);
                 if (sprite < 0) continue;
 
-                if (sprite == -1 || sprite == 0 || sprite >= sheetCount) continue;
+                if (sprite == -1 || sprite >= sheetCount) continue;
 
                 C2D_Image img = C2D_SpriteSheetGetImage(tileSheet, sprite);
                 float px = std::round((x - cam.x * layer.parallax) * tw * tileScale);

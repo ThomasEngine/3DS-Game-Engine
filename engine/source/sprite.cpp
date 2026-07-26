@@ -20,10 +20,6 @@ void Sprite::playAnimation(const Animation* anim, bool restart) {
     if (currentAnim == anim && !restart) return;
 
     currentAnim    = anim;
-    if (currentAnim->frameCount + currentAnim->frameCount > totalSprites) {
-        currentAnim->frameCount = totalSprites;
-
-    }
     animFrameIndex = 0;
     animTimer      = 0.0f;
     finished       = false;
@@ -84,8 +80,11 @@ void Sprite::draw() const {
 }
 
 void Sprite::updateFrame() {
+    if (!currentAnim) return;
+
     size_t index = currentAnim->startFrame + animFrameIndex;
     if (index >= totalSprites) return;
+
     C2D_DrawParams param = sprite.params;
     C2D_SpriteFromSheet(&sprite, sheet, index);
     sprite.params = param;

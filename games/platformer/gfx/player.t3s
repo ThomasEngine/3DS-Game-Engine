@@ -1,0 +1,29 @@
+-f rgba8888
+-z auto
+--atlas
+
+sliced/idle_0.png
+sliced/idle_1.png
+sliced/idle_2.png
+sliced/idle_3.png
+sliced/idle_4.png
+sliced/idle_5.png
+sliced/idle_6.png
+sliced/idle_7.png
+sliced/idle_8.png
+sliced/idle_9.png
+sliced/idle_10.png
+sliced/run_0.png
+sliced/run_1.png
+sliced/run_2.png
+sliced/run_3.png
+sliced/run_4.png
+sliced/run_5.png
+sliced/run_6.png
+sliced/run_7.png
+sliced/run_8.png
+sliced/run_9.png
+sliced/run_10.png
+sliced/run_11.png
+sliced/jump_0.png
+sliced/fall_0.png

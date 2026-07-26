@@ -1,0 +1,41 @@
+{
+    "activeFile": "untitled.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "tileset.tsx": {
+            "scaleInDock": 2,
+            "scaleInEditor": 3
+        },
+        "untitled.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 227,
+                "y": 198.5
+            }
+        }
+    },
+    "last.exportedFilePath": "C:/Users/thoma/Documents/SelfProject/Bomberman3DS/games/platformer/romfs/levels",
+    "last.imagePath": "C:/Users/thoma/Documents/SelfProject/Bomberman3DS/games/platformer/gfx",
+    "map.height": 8,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "openFiles": [
+        "tileset.tsx",
+        "untitled.tmx"
+    ],
+    "project": "platformer-prototype-project.tiled-project",
+    "recentFiles": [
+        "tileset.tsx",
+        "untitled.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}

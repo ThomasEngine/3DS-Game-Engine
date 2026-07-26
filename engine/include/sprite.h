@@ -5,8 +5,8 @@
 #include "engine_settings.h"
 
 struct Animation {
-    mutable size_t startFrame;
-    mutable size_t frameCount;
+    size_t startFrame;
+    size_t frameCount;
     float  frameTime;
     bool   loop;
 };
