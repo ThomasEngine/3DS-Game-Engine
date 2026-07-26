@@ -20,8 +20,8 @@ public:
     int getWidth() const { return width; }
     int getHeight() const { return height; }
 
-    void setWidth(int w) { if (width < MAX_W) width = w; }
-    void setHeight(int h) { if (height < MAX_H) height = h; }
+    void setWidth(int w) { if (w < MAX_W) width = w; }
+    void setHeight(int h) { if (h < MAX_H) height = h; }
 
 private:
     Entity cells[MAX_W][MAX_H];
