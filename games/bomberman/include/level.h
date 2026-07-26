@@ -1,46 +1,31 @@
 #pragma once
-#include "spatial_grid.h"
-
-enum TileType {
-    TILE_FLOOR,
-    TILE_FLOOR_ALT,
-    TILE_WALL,
-    TILE_BREAKABLE,
-};
+#include "tiled_loader.h"
+#include <string>
+#include <vector>
 
 class Level {
 public:
-    Level();
-    ~Level() = default;
+    bool load(const std::string& path);
 
-    // loading
-    bool load(const char* path);
-    void loadDefault(); // hardcoded test level
-
-    // tile getings
-    TileType getTile(int x, int y) const;
+    // collision queries (for collision system)
     bool isWalkable(int x, int y) const;
-    bool isBreakable(int x, int y) const;
-    bool inBounds(int x, int y) const;
+    bool isSolid(int x, int y) const;
 
-    // tile modification
-    void setTile(int x, int y, TileType type);
-    void destroyTile(int x, int y); // breakable -> floor
-
-    // dimensions
+    // dimensions (in tiles)
     int getWidth()  const { return width; }
     int getHeight() const { return height; }
 
-    // spatial grid access
-    SpatialGrid& getGrid() { return grid; }
+    // rendering — access to layers + map
+    const std::vector<TiledLayer>& getLayers() const { return map.layers; }
+    int getTileWidth()  const { return map.tileWidth; }
+    int getTileHeight() const { return map.tileHeight; }
+    const TiledMap& getMap() const { return map; }
 
-    // rendering info
-    // returns tile image index for renderer
-    int getTileSprite(int x, int y);
 
 private:
+    TiledMap map;
     int width  = 0;
     int height = 0;
-    TileType tiles[SpatialGrid::MAX_W][SpatialGrid::MAX_H];
-    SpatialGrid grid;
+
+    const TiledLayer* collisionLayer = nullptr;
 };

@@ -12,8 +12,6 @@ public:
     bool isWalkable(int x, int y) const;   // true if NOT solid and in bounds
     bool isSolid(int x, int y) const;
 
-    SpatialGrid& getGrid() { return grid; }
-
     // dimensions (in tiles)
     int getWidth()  const { return width; }
     int getHeight() const { return height; }
@@ -27,11 +25,8 @@ public:
 
 private:
     TiledMap map;
-    SpatialGrid grid;
     int width  = 0;
     int height = 0;
 
     const TiledLayer* collisionLayer = nullptr;
-
-    void buildCollision();
 };

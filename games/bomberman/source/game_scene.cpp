@@ -7,9 +7,9 @@
 #include "systems/render_system.h"
 #include "systems/collision_system.h"
 #include "game_assets.h"
-#include "level_renderer.h"
 #include <algorithm>
 #include "scene_manager.h"
+#include "tiled_render.h"
 
 void GameScene::enter() {
     assets = graphics_load_assets();
@@ -17,9 +17,7 @@ void GameScene::enter() {
     player.init(world, assets, 1.f, 1.f, manager->getSettings());
 
     level = new Level();
-    level->loadDefault();
-
-    
+    level->load("romfs:/levels/1vs1_level.tmj");
 }
 
 void GameScene::exit() {
@@ -35,7 +33,6 @@ void GameScene::update(float deltaTime) {
 
     systems::collision_update(
         world,
-        level->getGrid(),
         [&](int x, int y) {
             return level->isWalkable(x, y);
         },
@@ -75,16 +72,18 @@ void GameScene::renderTop(Renderer& renderer) {
     cam.x = std::clamp(cam.x, 0.0f, (float)level->getWidth()  - 12.5f);
     cam.y = std::clamp(cam.y, 0.0f, (float)level->getHeight() - 7.5f);
 
-    draw_level(
-        level->getWidth(),
-        level->getHeight(),
-        renderer.getCamera(),
-        [&](int x, int y) {
-            int index = level->getTileSprite(x, y);
-            return C2D_SpriteSheetGetImage(assets->tiles, index);
-        },
-        manager->getSettings()
-    );
+    // draw_level(
+    //     level->getWidth(),
+    //     level->getHeight(),
+    //     renderer.getCamera(),
+    //     [&](int x, int y) {
+    //         int index = level->getTileSprite(x, y);
+    //         return C2D_SpriteSheetGetImage(assets->tiles, index);
+    //     },
+    //     manager->getSettings()
+    // );
+
+    draw_tiled_map(level->getMap(), cam, assets->tiles, manager->getSettings());
 
     systems::render_draw(world, renderer, RenderLayer::LAYER_TOP, manager->getSettings());
 }

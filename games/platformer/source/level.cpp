@@ -23,13 +23,7 @@ bool Level::load(const std::string& path) {
         }
     }
 
-    buildCollision();
     return true;
-}
-
-void Level::buildCollision() {
-    grid.init(width, height);
-    grid.clear();
 }
 
 bool Level::isSolid(int x, int y) const {
