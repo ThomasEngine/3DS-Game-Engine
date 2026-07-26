@@ -7,7 +7,7 @@ int main() {
     defaultSettings.entityScale = 1;
 
     Engine engine;
-    // engine.setDefaultSettings(defaultSettings);
+    engine.setDefaultSettings(defaultSettings);
     engine.setScene(new MainScene());
     engine.run();
     return 0;
