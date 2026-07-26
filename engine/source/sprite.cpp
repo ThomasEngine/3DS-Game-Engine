@@ -70,6 +70,13 @@ void Sprite::setOrigin(float x, float y) {
     C2D_SpriteSetCenter(&sprite, x, y);
 }
 
+void Sprite::setCurrentFrame(size_t frame) {
+    animFrameIndex = frame;
+    currentFrame = frame;
+
+    updateFrame();
+}
+
 void Sprite::draw() const {
     // for debug purpeses draw red rect behind sprite
     // C2D_DrawParams param = sprite.params;

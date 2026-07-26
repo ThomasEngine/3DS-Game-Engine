@@ -34,7 +34,7 @@ public:
     void setScale(float x, float y);
     void setRotation(float angle);
     void setOrigin(float x, float y);
-    void setCurrentFrame(size_t frame) {animFrameIndex = currentFrame; currentFrame = frame;}
+    void setCurrentFrame(size_t frame);
 
     float getX() const { return sprite.params.pos.x; }
     float getY() const { return sprite.params.pos.y; }
