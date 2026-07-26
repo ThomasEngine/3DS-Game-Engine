@@ -54,11 +54,8 @@ bool loadTiledMap(const std::string& filePath, TiledMap& out) {
         return false;
     }
 
-    int layerCount = cJSON_GetArraySize(layers);
-    for (int i = 0; i < layerCount; i++) {
-        cJSON* layerJson = cJSON_GetArrayItem(layers, i);
-        if (!layerJson) continue;
-
+    cJSON* layerJson = nullptr;
+    cJSON_ArrayForEach(layerJson, layers) {
         // only handle tile layers
         cJSON* type = cJSON_GetObjectItem(layerJson, "type");
         if (!cJSON_IsString(type) || std::string(type->valuestring) != "tilelayer") {
@@ -83,10 +80,9 @@ bool loadTiledMap(const std::string& filePath, TiledMap& out) {
         // tile data — flat array of GIDs, row-major
         cJSON* data = cJSON_GetObjectItem(layerJson, "data");
         if (cJSON_IsArray(data)) {
-            int count = cJSON_GetArraySize(data);
-            layer.tiles.reserve(count);
-            for (int t = 0; t < count; t++) {
-                cJSON* val = cJSON_GetArrayItem(data, t);
+            layer.tiles.reserve(cJSON_GetArraySize(data));
+            cJSON* val = nullptr;
+            cJSON_ArrayForEach(val, data) {
                 if (cJSON_IsNumber(val)) {
                     // valuedouble used because GIDs with flip bits can exceed int range
                     layer.tiles.push_back((uint32_t)val->valuedouble);
