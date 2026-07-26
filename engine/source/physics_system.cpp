@@ -19,10 +19,14 @@ namespace systems {
             position.y += velocity.dy * dt;
 
 
-            float friction = settings.useFriction ? settings.friction : 0.f;
+            if (settings.useFriction) {
 
-            velocity.dx = velocity.dx * friction * dt;
-            velocity.dy = velocity.dy * friction * dt;
+                const float& friction = settings.friction;
+
+                velocity.dx = pow(settings.friction, dt);
+                velocity.dy = pow(settings.friction, dt);
+            }
+
 
             if (velocity.dx != 0.0f && std::abs(velocity.dx) < 0.001f) velocity.dx = 0.0f;
             if (velocity.dy != 0.0f && std::abs(velocity.dy) < 0.001f) velocity.dy = 0.0f;
