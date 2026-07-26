@@ -10,8 +10,8 @@ struct Background {
     C2D_Image image;
     float parallax = 1.0f;
     float scale = 1.0f;
-    bool flipX = true; // infinite scrolling background
-    bool flipY = false;
+    bool tileX = true; // infinite scrolling background
+    bool tileY = false;
 };
 
 // Load a background Image into a background

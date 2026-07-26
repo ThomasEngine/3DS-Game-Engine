@@ -8,8 +8,8 @@ bool load_background(Background &bg, const char *path, float parallax, float sca
     bg.image = C2D_SpriteSheetGetImage(bg.sheet, 0);
     bg.parallax = parallax;
     bg.scale = scale;
-    bg.flipX = flipX;
-    bg.flipY = flipY;
+    bg.tileX = flipX;
+    bg.tileY = flipY;
     return true;
 }
 
@@ -24,6 +24,11 @@ void draw_parallax_backgrounds(const std::vector<Background> &backgrounds, const
     const float SCREEN_W = 400.0f;
     const float SCREEN_H = 240.0f;
 
+    // convert camera from tiles to pixels
+    const float pxPerTile = settings.tileSizePx * settings.tileScale;
+    const float camPxX = camera.x * pxPerTile;
+    const float camPxY = camera.y * pxPerTile;
+
     for (const auto& bg : backgrounds) {
         float imgW = bg.image.subtex->width  * bg.scale;
         float imgH = bg.image.subtex->height * bg.scale;
@@ -31,11 +36,11 @@ void draw_parallax_backgrounds(const std::vector<Background> &backgrounds, const
         float offX = camera.x * bg.parallax;
         float offY = camera.y * bg.parallax;
 
-        if (bg.flipX) {
+        if (bg.tileX) {
             float startX = -fmodf(offX, imgW);
             if (startX > 0) startX -= imgW;
 
-            if (bg.flipY) {
+            if (bg.tileY) {
                 float startY = -fmodf(offY, imgH);
                 if (startY > 0) startY -= imgH;
                 for (float x = startX; x < SCREEN_W; x += imgW) {
