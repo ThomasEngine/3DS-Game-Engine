@@ -7,6 +7,7 @@
 #include <cstdio>
 #include <cstdlib>
 
+// TILED MAP LOADER MADE WITH AI
 bool loadTiledMap(const std::string& filePath, TiledMap& out) {
     // --- 1. read the whole file into memory ---
     FILE* f = fopen(filePath.c_str(), "rb");
@@ -45,6 +46,11 @@ bool loadTiledMap(const std::string& filePath, TiledMap& out) {
     cJSON* th = cJSON_GetObjectItem(root, "tileheight");
     if (cJSON_IsNumber(tw)) out.tileWidth  = tw->valueint;
     if (cJSON_IsNumber(th)) out.tileHeight = th->valueint;
+
+    cJSON* mw = cJSON_GetObjectItem(root, "width");
+    cJSON* mh = cJSON_GetObjectItem(root, "height");
+    if (cJSON_IsNumber(mw)) out.width = mw->valueint;
+    if (cJSON_IsNumber(mh)) out.height = mh->valueint;
 
     // --- 4. iterate layers ---
     cJSON* layers = cJSON_GetObjectItem(root, "layers");

@@ -23,8 +23,8 @@ namespace systems {
 
                 const float& friction = settings.friction;
 
-                velocity.dx = pow(settings.friction, dt);
-                velocity.dy = pow(settings.friction, dt);
+                velocity.dx = pow(friction, dt);
+                velocity.dy = pow(friction, dt);
             }
 
 
