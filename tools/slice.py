@@ -2,12 +2,17 @@
 import sys
 import json
 import subprocess
+import math
 from PIL import Image
 
 TEX3DS = r"C:\devkitPro\tools\bin\tex3ds.exe"
 
 
-def write_t3s(t3s_path, out_subdir, filenames, cell_note=""):
+# ---------------------------------------------------------------------------
+# Shared helpers
+# ---------------------------------------------------------------------------
+
+def write_t3s(t3s_path, out_subdir, filenames):
     """Write a .t3s file listing the given sliced PNG filenames."""
     lines = [
         "-f rgba8888",
@@ -33,8 +38,45 @@ def convert_t3s(t3s_path, out_t3x):
     return True
 
 
+def build_tileset_image(sheet_def, gfx_dir, tile_images, sheet_name):
+    """Combine sliced tiles into a single tileset image for Tiled."""
+    cell = sheet_def["cell_size"]
+    num_tiles = len(tile_images)
+    if num_tiles == 0:
+        return
+
+    layout = sheet_def.get("tileset_layout", "row")
+
+    if layout == "square":
+        cols = int(math.ceil(math.sqrt(num_tiles)))
+        rows = int(math.ceil(num_tiles / cols))
+    else:  # "row" or anything else defaults to row
+        cols = num_tiles
+        rows = 1
+
+    out_w = cols * cell
+    out_h = rows * cell
+    tileset = Image.new("RGBA", (out_w, out_h), (0, 0, 0, 0))
+
+    for i, img in enumerate(tile_images):
+        col = i % cols
+        row = i // cols
+        tileset.paste(img, (col * cell, row * cell))
+
+    tiled_dir = os.path.join(gfx_dir, "tiled")
+    os.makedirs(tiled_dir, exist_ok=True)
+    out_path = os.path.join(tiled_dir, f"{sheet_name}_tileset.png")
+    tileset.save(out_path)
+    print(f"  tileset image: tiled/{sheet_name}_tileset.png ({cols}x{rows})")
+
+
+# ---------------------------------------------------------------------------
+# Slicing modes
+# ---------------------------------------------------------------------------
+
 def slice_grid(sheet_def, gfx_dir, sliced_dir, out_subdir):
-    """Slice a tileset grid into individual cell PNGs. Returns list of filenames."""
+    """Slice a source PNG into a full grid of cells.
+    Returns (filenames, frame_info, tile_images)."""
     cell = sheet_def["cell_size"]
     img_path = os.path.join(gfx_dir, sheet_def["file"])
     img = Image.open(img_path)
@@ -43,6 +85,7 @@ def slice_grid(sheet_def, gfx_dir, sliced_dir, out_subdir):
     rows = img.height // cell
 
     filenames = []
+    tile_images = []
     index = 0
     for row in range(rows):
         for col in range(cols):
@@ -52,17 +95,59 @@ def slice_grid(sheet_def, gfx_dir, sliced_dir, out_subdir):
             name = f"tile_{index}.png"
             crop.save(os.path.join(sliced_dir, name))
             filenames.append(name)
+            tile_images.append(crop)
             index += 1
 
     print(f"  grid: sliced {index} tiles ({cols}x{rows})")
-    return filenames
+    return filenames, {}, tile_images
+
+
+def slice_sparse(sheet_def, gfx_dir, sliced_dir, out_subdir):
+    """Slice specific cells from a source PNG by (col, row).
+    Supports multiple frames per entry (frames continue horizontally).
+    Returns (filenames, frame_info, tile_images)."""
+    cell = sheet_def["cell_size"]
+    img_path = os.path.join(gfx_dir, sheet_def["file"])
+    img = Image.open(img_path)
+
+    filenames = []
+    frame_info = {}
+    tile_images = []
+
+    for entry in sheet_def["entries"]:
+        name   = entry["name"]
+        col    = entry["col"]
+        row    = entry["row"]
+        frames = entry.get("frames", 1)
+
+        for frame in range(frames):
+            x = (col + frame) * cell
+            y = row * cell
+            crop = img.crop((x, y, x + cell, y + cell))
+
+            if frames > 1:
+                out_name = f"{name}_{frame}.png"
+            else:
+                out_name = f"{name}.png"
+
+            crop.save(os.path.join(sliced_dir, out_name))
+            filenames.append(out_name)
+            tile_images.append(crop)
+
+        if frames > 1:
+            frame_info[name] = frames
+
+    print(f"  sparse: sliced {len(filenames)} images")
+    return filenames, frame_info, tile_images
 
 
 def slice_strips(sheet_def, gfx_dir, sliced_dir, out_subdir):
-    """Slice horizontal animation strips into frames. Returns (filenames, frame_info)."""
+    """Slice horizontal animation strips into frames.
+    Returns (filenames, frame_info, tile_images)."""
     cell = sheet_def["cell_size"]
     filenames = []
-    frame_info = {}  # name -> frame count, for reference
+    frame_info = {}
+    tile_images = []
 
     for strip in sheet_def["strips"]:
         name = strip["name"]
@@ -76,11 +161,12 @@ def slice_strips(sheet_def, gfx_dir, sliced_dir, out_subdir):
             out_name = f"{name}_{i}.png"
             crop.save(os.path.join(sliced_dir, out_name))
             filenames.append(out_name)
+            tile_images.append(crop)
 
         frame_info[name] = frames
         print(f"  strip '{name}': {frames} frames")
 
-    return filenames, frame_info
+    return filenames, frame_info, tile_images
 
 
 def convert_backgrounds(backgrounds, gfx_dir, romfs_gfx):
@@ -102,6 +188,10 @@ def convert_backgrounds(backgrounds, gfx_dir, romfs_gfx):
         if convert_t3s(t3s_path, out_t3x):
             print(f"  background: {name}.t3x")
 
+
+# ---------------------------------------------------------------------------
+# Per-game slicing
+# ---------------------------------------------------------------------------
 
 def slice_game(game):
     gfx_dir   = f"games/{game}/gfx"
@@ -129,13 +219,22 @@ def slice_game(game):
         print(f"Sheet '{sheet_name}' (mode: {mode})")
 
         if mode == "grid":
-            filenames = slice_grid(sheet_def, gfx_dir, sliced_dir, out_subdir)
+            filenames, frame_info, tile_images = slice_grid(sheet_def, gfx_dir, sliced_dir, out_subdir)
         elif mode == "strips":
-            filenames, frame_info = slice_strips(sheet_def, gfx_dir, sliced_dir, out_subdir)
-            all_frame_info[sheet_name] = frame_info
+            filenames, frame_info, tile_images = slice_strips(sheet_def, gfx_dir, sliced_dir, out_subdir)
+        elif mode == "sparse":
+            filenames, frame_info, tile_images = slice_sparse(sheet_def, gfx_dir, sliced_dir, out_subdir)
         else:
             print(f"  unknown mode '{mode}', skipping")
             continue
+
+        # record any animation frame info
+        if frame_info:
+            all_frame_info[sheet_name] = frame_info
+
+        # optionally build a Tiled-ready tileset image
+        if sheet_def.get("build_tileset", False):
+            build_tileset_image(sheet_def, gfx_dir, tile_images, sheet_name)
 
         # write .t3s and convert to .t3x
         t3s_path = os.path.join(gfx_dir, f"{sheet_name}.t3s")
@@ -157,6 +256,10 @@ def slice_game(game):
             json.dump(all_frame_info, f, indent=2)
         print(f"\nFrame info written to {info_path}")
 
+
+# ---------------------------------------------------------------------------
+# CLI
+# ---------------------------------------------------------------------------
 
 def list_games():
     return [d for d in os.listdir("games")
