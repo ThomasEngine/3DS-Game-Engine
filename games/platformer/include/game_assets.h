@@ -32,16 +32,17 @@ inline GraphicsAssets* graphics_load_assets() {
     assets->tiles  = C2D_SpriteSheetLoad("romfs:/gfx/tiles.t3x");
     assets->player = C2D_SpriteSheetLoad("romfs:/gfx/player.t3x");
 
+    //
     Background background1;
-    load_background(background1, "romfs:/gfx/Background3.t3x", 0.2f, 2.0f);
+    load_background(background1, "romfs:/gfx/Background3.t3x", 0.75f, 2.0f);
     assets->backgrounds.push_back(background1);
 
     Background background2;
-    load_background(background2, "romfs:/gfx/Background2.t3x", 0.5f, 2.0f);
+    load_background(background2, "romfs:/gfx/Background2.t3x", 0.90f, 2.0f);
     assets->backgrounds.push_back(background2);
 
     Background background3;
-    load_background(background3, "romfs:/gfx/Background1.t3x", 0.8f, 2.0f);
+    load_background(background3, "romfs:/gfx/Background1.t3x", 1.f, 2.0f);
     assets->backgrounds.push_back(background3);
 
 

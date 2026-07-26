@@ -9,7 +9,6 @@ bool Level::load(const std::string& path) {
         return false;
     }
 
-    // dimensions come from the first layer (all layers same size in Tiled)
     if (!map.layers.empty()) {
         width  = map.layers[0].width;
         height = map.layers[0].height;
@@ -31,22 +30,20 @@ bool Level::load(const std::string& path) {
 void Level::buildCollision() {
     grid.init(width, height);
     grid.clear();
-    // the spatial grid tracks entities, not tiles — tiles are checked via isSolid
-    // (nothing to insert here; isSolid reads the collision layer directly)
 }
 
 bool Level::isSolid(int x, int y) const {
     if (x < 0 || x >= width || y < 0 || y >= height) {
-        return true;   // out of bounds = solid (blocks movement)
+        return true;
     }
     if (!collisionLayer) {
-        return false;  // no collision layer = nothing solid
+        return false;
     }
     int idx = y * width + x;
     if (idx < 0 || idx >= (int)collisionLayer->tiles.size()) {
         return true;
     }
-    // non-empty tile in the collision layer = solid
+
     return tile_index_from_gid(collisionLayer->tiles[idx]) != -1;
 }
 

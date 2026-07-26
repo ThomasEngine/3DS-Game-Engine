@@ -37,7 +37,7 @@ void draw_parallax_backgrounds(const std::vector<Background> &backgrounds, const
         float offY = camera.y * bg.parallax;
 
         if (bg.tileX) {
-            float startX = -fmodf(offX, imgW);
+            int startX = -(int)std::floor(fmodf(offX, (float)imgW));
             if (startX > 0) startX -= imgW;
 
             if (bg.tileY) {
@@ -52,12 +52,12 @@ void draw_parallax_backgrounds(const std::vector<Background> &backgrounds, const
             } else {
                 float y = -offY;
                 for (float x = startX; x < SCREEN_W; x += imgW) {
-                    C2D_DrawImageAt(bg.image, std::round(x), std::round(y), 0,
+                    C2D_DrawImageAt(bg.image, float(x), float(y), 0,
                                     nullptr, bg.scale, bg.scale);
                 }
             }
         } else {
-            C2D_DrawImageAt(bg.image, std::round(-offX), std::round(-offY), 0,
+            C2D_DrawImageAt(bg.image, (float)std::round(-offX), (float)std::round(-offY), 0,
                             nullptr, bg.scale, bg.scale);
         }
     }

@@ -68,3 +68,8 @@ void SceneManager::renderBottom(Renderer& renderer) {
         current->renderBottom(renderer);
     }
 }
+
+void SceneManager::setDefaultSettings(EngineSettings& s) {
+    engine_default_settings = s;
+    settings = s;
+}
