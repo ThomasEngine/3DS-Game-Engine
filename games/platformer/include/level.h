@@ -1,8 +1,8 @@
 ﻿#pragma once
 #include "tiled_loader.h"
-#include "spatial_grid.h"
 #include <string>
 #include <vector>
+#include "vec2.h"
 
 class Level {
 public:
@@ -22,6 +22,8 @@ public:
     int getTileHeight() const { return map.tileHeight; }
     const TiledMap& getMap() const { return map; }
 
+    // In pixels
+    Vec2 getPlayerStartPos();
 
 private:
     TiledMap map;

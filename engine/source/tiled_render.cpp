@@ -41,16 +41,25 @@ void draw_tiled_map(const TiledMap &map, const Camera &cam, C2D_SpriteSheet tile
         for (int y = startY; y < endY; y++) {
             for (int x = startX; x < endX; x++) {
                 int idx = y * layer.width + x;
-                int sprite = tile_index_from_gid(layer.tiles[idx]);
-                if (sprite < 0) continue;
+                uint32_t gid = layer.tiles[idx];
+                int sprite = tile_index_from_gid(gid);
+                if (sprite < 0 || sprite >= sheetCount) continue;
 
-                if (sprite == -1 || sprite >= sheetCount) continue;
+                bool flipH = tile_flipped_h(gid);
+                bool flipV = tile_flipped_v(gid);
 
                 C2D_Image img = C2D_SpriteSheetGetImage(tileSheet, sprite);
+
                 float px = std::round((x - cam.x * layer.parallax) * tw * tileScale);
                 float py = std::round((y - cam.y * layer.parallax) * th * tileScale);
-                C2D_DrawImageAt(img, px, py, 0, nullptr, tileScale, tileScale);
 
+                float scaleX = flipH ? -tileScale : tileScale;
+                float scaleY = flipV ? -tileScale : tileScale;
+
+                if (flipH) px += tw * tileScale;
+                if (flipV) py += th * tileScale;
+
+                C2D_DrawImageAt(img, px, py, 0, nullptr, scaleX, scaleY);
             }
         }
     }

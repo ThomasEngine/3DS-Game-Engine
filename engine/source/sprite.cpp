@@ -1,16 +1,16 @@
 ﻿#include "sprite.h"
 
 
-void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteIndex, const EngineSettings& settings) {
+void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteStartIndex, const EngineSettings& settings) {
     totalSprites = C2D_SpriteSheetCount(spriteSheet);
     sheet        = spriteSheet;
-    currentFrame = spriteIndex;
+    currentFrame = spriteStartIndex;
     currentAnim  = nullptr;
     animTimer    = 0.0f;
     animFrameIndex = 0;
     finished     = false;
 
-    C2D_SpriteFromSheet(&sprite, sheet, spriteIndex);
+    C2D_SpriteFromSheet(&sprite, sheet, spriteStartIndex);
     C2D_SpriteSetCenter(&sprite, 0.5f, 0.5f);
 
     setScale(settings.entityScale, settings.entityScale);
@@ -96,3 +96,10 @@ void Sprite::updateFrame() {
     C2D_SpriteFromSheet(&sprite, sheet, index);
     sprite.params = param;
 }
+
+void Sprite::applyTransform() {
+    float sx = flipX ? -1 : 1;
+    float sy = flipY ? -1 : 1;
+    C2D_SpriteSetScale(&sprite, sx, sy);
+}
+

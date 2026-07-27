@@ -103,6 +103,17 @@ namespace systems {
                         }
                     }
                 }
+
+                if (world.hasComponent(e, COMP_GRAVITY)) {
+                    float feetY = world.position[e].y + 0.5f;
+                    int tx = (int)std::round(world.position[e].x);
+                    int ty = (int)std::round(feetY + 0.1f);
+
+                    bool solidBelow = !isWalkable(tx, ty);
+                    bool notMovingUp = world.velocity[e].dy >= 0.0f;
+
+                    world.gravity[e].grounded = (solidBelow && notMovingUp) ? 1 : 0;
+                }
             }
 
             // entity collision

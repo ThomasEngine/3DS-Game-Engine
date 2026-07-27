@@ -2,45 +2,75 @@
 
 #include <algorithm>
 
+#include "animation_system.h"
 #include "level.h"
 #include  "tiled_render.h"
 #include "background.h"
 #include "cmath"
+#include "collision_system.h"
 #include "game_assets.h"
-#include "input.h"
+#include "physics_system.h"
+#include "render_system.h"
 
 void MainScene::enter() {
-    level = new Level();
-
-    level->load("romfs:/levels/prototype-level.tmj");
+    const EngineSettings& s = manager->getSettings();
 
     assets = graphics_load_assets();
+
+    level = new Level();
+    level->load("romfs:/levels/prototype-level.tmj");
+
+    Vec2 playerStartingPosPx = level->getPlayerStartPos();
+    Vec2 playerStartPos;
+    playerStartPos.x = playerStartingPosPx.x / s.tileSizePx;
+    playerStartPos.y = playerStartingPosPx.y / s.tileSizePx;
+
+
+    // player.init(world, assets, playerStartPos, s);
+    player.init(world, assets, Vec2(2,2), s);
 }
 
 void MainScene::exit() {
 }
 
-static float posX;
 void MainScene::update(float dt) {
-    if (input_held(KEY_CPAD_LEFT)) {
-        posX -= 10 * dt;
-    }
-    if (input_held(KEY_CPAD_RIGHT)) {
-        posX += 10 * dt;
-    }
+    const EngineSettings& s = manager->getSettings();
+    player.handleInput(world);
 
-    camera.x = std::clamp(posX, 0.0f, (float)level->getWidth() - 12.5f);
+   systems::collision_update(
+       world,
+       [&](int x, int y) {
+           return level->isWalkable(x, y);
+       }, [&](CollisionEvent event, ECSWorld& w) {
+           onCollision(event, w);
+       }, dt);
+
+    systems::update_gravity(world, dt, s);
+    systems::update_velocity(world, dt, s);
+    systems::update_animation(world, dt);
 }
 
 
 void MainScene::renderBottom(Renderer& renderer) {
 }
 
+void MainScene::onCollision(CollisionEvent event, ECSWorld &world) {
+    // What happends when 2 enitty collides
+}
+
 void MainScene::renderTop(Renderer& renderer) {
     const EngineSettings& s = manager->getSettings();
+    Camera& cam = renderer.getCamera();
 
-    draw_parallax_backgrounds(assets->backgrounds, camera, s);
-    draw_tiled_map(level->getMap(), camera, assets->tiles, s);
+    cam.x = world.position[player.getEntity()].x / 2.0 + 0.5;
+    cam.y = world.position[player.getEntity()].y / 2.0 + 0.5;
+
+    cam.x = std::clamp(cam.x, 0.0f, (float)level->getWidth()  - 12.5f);
+    cam.y = std::clamp(cam.y, 0.0f, (float)level->getHeight() - 7.5f);
+
+    draw_parallax_backgrounds(assets->backgrounds, cam, s);
+    draw_tiled_map(level->getMap(), cam, assets->tiles, s);
+    systems::render_draw(world, renderer, RenderLayer::LAYER_TOP, s);
 }
 
 

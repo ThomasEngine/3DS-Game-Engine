@@ -7,8 +7,8 @@
 struct Animation {
     size_t startFrame;
     size_t frameCount;
-    float  frameTime;
-    bool   loop;
+    float frameTime;
+    bool loop;
 };
 
 class Sprite
@@ -42,13 +42,20 @@ public:
     float getHeight() const { return sprite.params.pos.h; }
     float getRotation() const { return sprite.params.angle; }
 
+    void setFlipX(bool flip) { flipX = flip; applyTransform(); };
+    void setFlipY(bool flip) { flipY = flip; applyTransform(); };
+
     void draw() const;
 
     uint32_t color = C2D_Color32(0,255,0,255);
     
 private:
     void updateFrame();
-    
+    void applyTransform();
+
+    bool flipX = false;
+    bool flipY = false;
+
     C2D_Sprite sprite;
     C2D_SpriteSheet sheet = nullptr;
     size_t currentFrame;

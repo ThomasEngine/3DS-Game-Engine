@@ -18,7 +18,9 @@ struct GraphicsAssets {
 
 
 
-GraphicsAssets* graphics_load_assets();
+// GraphicsAssets* graphics_load_assets();
+
+
 inline void graphics_free_assets(GraphicsAssets* assets) {
     if (!assets) return;
     C2D_SpriteSheetFree(assets->player);
@@ -38,11 +40,11 @@ inline GraphicsAssets* graphics_load_assets() {
     assets->backgrounds.push_back(background1);
 
     Background background2;
-    load_background(background2, "romfs:/gfx/Background2.t3x", 0.90f, 2.0f);
+    load_background(background2, "romfs:/gfx/Background2.t3x", 1.0f, 2.0f);
     assets->backgrounds.push_back(background2);
 
     Background background3;
-    load_background(background3, "romfs:/gfx/Background1.t3x", 1.f, 2.0f);
+    load_background(background3, "romfs:/gfx/Background1.t3x", 2.f, 2.0f);
     assets->backgrounds.push_back(background3);
 
 

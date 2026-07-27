@@ -33,8 +33,8 @@ struct VelocityComponent {
 };
 
 struct GravityComponent {
-    float weight     = 1.0f;
-    float jumpForce  = 5.0f;
+    float weight     = 5.0f;
+    float jumpForce  = 20.0f;
     int   grounded   = 0;
 };
 

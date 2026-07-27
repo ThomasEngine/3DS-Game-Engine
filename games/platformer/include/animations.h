@@ -2,8 +2,8 @@
 #include "sprite.h"
 
 namespace PlayerAnims {
-    constexpr Animation  IDLE { 0, 2, 0.2, true };
-    constexpr Animation  WALK_DOWN { 3, 2, 0.2, true };
-    constexpr Animation  WALK_RIGHT { 6, 2, 0.2, true };
-    constexpr Animation  WALK_UP { 9, 2, 0.2, true };
+    constexpr Animation IDLE { 0,  11, 0.10f, true };
+    constexpr Animation RUN  { 11, 12, 0.06f, true };
+    constexpr Animation JUMP { 23, 1,  0.10f, false };
+    constexpr Animation FALL { 24, 1,  0.10f, false };
 }

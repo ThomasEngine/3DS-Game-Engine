@@ -1,5 +1,7 @@
 ﻿#pragma once
+#include "collision_system.h"
 #include "core.h"
+#include "player.h"
 
 class GraphicsAssets;
 class Level;
@@ -15,7 +17,10 @@ public:
     void renderBottom(Renderer& renderer) override;
 
 private:
+    void onCollision(CollisionEvent event, ECSWorld& world);
+
+    Player player;
+    ECSWorld world;
     Level* level;
     GraphicsAssets* assets;
-    Camera camera;
 };
