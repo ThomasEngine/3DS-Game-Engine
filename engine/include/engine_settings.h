@@ -4,8 +4,8 @@
 
 struct EngineSettings {
     // physics
-    float gravity        = 9.8f;
-    float maxFallSpeed   = 20.0f;
+    float gravity        = 30.8f;
+    float maxFallSpeed   = 10.0f;
     bool  useFriction    = false;
     float friction       = 0.9f;
 

@@ -29,11 +29,13 @@ void Player::handleInput(ECSWorld& world) {
     if (input_held(KEY_CPAD_RIGHT) || input_held(KEY_RIGHT)) {
         world.velocity[entity].dx =  speed;
         sprite.playAnimation(&PlayerAnims::WALK_RIGHT);
+        sprite.setFlipX(false);
         moving = true;
     }
     if (input_held(KEY_CPAD_LEFT) || input_held(KEY_LEFT)) {
         world.velocity[entity].dx = -speed;
         sprite.playAnimation(&PlayerAnims::WALK_LEFT);
+        sprite.setFlipX(true);
         moving = true;
     }
     if (input_held(KEY_CPAD_UP) || input_held(KEY_UP)) {

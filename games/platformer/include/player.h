@@ -14,6 +14,7 @@ public:
     void destroy(ECSWorld& world);
 
     void handleInput(ECSWorld& world);
+    void updateAnimation(ECSWorld& world);
 
     Entity getEntity() const { return entity; }
 

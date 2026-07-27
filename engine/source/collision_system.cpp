@@ -17,10 +17,6 @@ namespace systems {
             float newX = world.position[e].x + world.velocity[e].dx * dt;
             float newY = world.position[e].y + world.velocity[e].dy * dt;
 
-            // round x and y for lookup
-            const int roundedX = int(std::round(newX));
-            const int roundedY = int(std::round(newY));
-
             world.sprite[e].sprite.color = C2D_Color32(0, 255, 0, 255);
 
             auto toTile = [](float f) { return std::round(f); };
