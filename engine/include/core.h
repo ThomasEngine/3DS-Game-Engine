@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "scene_manager.h"
 #include "engine_settings.h"
+#include "vec2.h"
 
 // Abstract scene interface
 class BaseScene {

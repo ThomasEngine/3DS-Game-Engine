@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "vec2.h"
+
 class Level {
 public:
     bool load(const std::string& path);
@@ -20,6 +22,9 @@ public:
     int getTileWidth()  const { return map.tileWidth; }
     int getTileHeight() const { return map.tileHeight; }
     const TiledMap& getMap() const { return map; }
+
+    // Player Start Positiopn in Pixels not Tiles!!
+    Vec2 getPlayerStartPosition() const;
 
 
 private:

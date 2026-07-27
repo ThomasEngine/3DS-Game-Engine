@@ -14,10 +14,18 @@
 void GameScene::enter() {
     assets = graphics_load_assets();
 
-    player.init(world, assets, 1.f, 1.f, manager->getSettings());
-
     level = new Level();
     level->load("romfs:/levels/1vs1_level.tmj");
+
+    // PlayerStartPos in Pixels
+    const Vec2 playerStartPosPx = level->getPlayerStartPosition();
+    Vec2 playerStartPos;
+
+    const EngineSettings& settings = manager->getSettings();
+    playerStartPos.x = std::floor(playerStartPosPx.x / settings.tileSizePx);
+    playerStartPos.y = std::floor(playerStartPosPx.y / settings.tileSizePx);
+
+    player.init(world, assets, playerStartPos.x, playerStartPos.y, manager->getSettings());
 }
 
 void GameScene::exit() {
