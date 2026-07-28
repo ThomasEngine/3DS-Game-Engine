@@ -12,15 +12,17 @@ public:
     virtual void enter() {}
     virtual void exit() {}
     virtual void update(float dt) = 0;
-    virtual void renderTop(Renderer& renderer) = 0;
-    virtual void renderBottom(Renderer& renderer) = 0;
+    virtual void renderTop() = 0;
+    virtual void renderBottom() = 0;
 
     virtual void configurateSettings(EngineSettings& settings) {}
 
     void setManager(SceneManager* mgr) { manager = mgr; }
+    void setRenderer(Renderer* ren) { renderer = ren; }
 
 protected:
     SceneManager* manager = nullptr;
+    Renderer* renderer = nullptr;
 };
 
 class Engine {

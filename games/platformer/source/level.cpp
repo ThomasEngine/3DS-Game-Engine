@@ -41,15 +41,15 @@ bool Level::isSolid(int x, int y) const {
     return tile_index_from_gid(collisionLayer->tiles[idx]) != -1;
 }
 
-Vec2 Level::getPlayerStartPos() {
+vec2 Level::getPlayerStartPos() {
     for (const auto& objectLayers : map.objectLayers) {
         for (const auto& object : objectLayers.objects) {
             if (object.name == "player_start") {
-                return Vec2(object.x, object.y);
+                return vec2(object.x, object.y);
             }
         }
     }
-    return Vec2(-1);
+    return vec2(-1);
 }
 
 bool Level::isWalkable(int x, int y) const {

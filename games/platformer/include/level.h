@@ -23,7 +23,7 @@ public:
     const TiledMap& getMap() const { return map; }
 
     // In pixels
-    Vec2 getPlayerStartPos();
+    vec2 getPlayerStartPos();
 
 private:
     TiledMap map;

@@ -28,14 +28,18 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
         const float HALFW = entityPos.halfWidth;
         const float HALFH = entityPos.halfHeight;
 
+        const float INSET = 0.01f;
+
 
         // If WalkableCallback is there, check for collision
         if (isWalkable) {
             // x movement
             if (entityVel.dx != 0.0f) {
                 float checkX = newX + (entityVel.dx > 0 ? HALFW : -HALFW);
-                bool topBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y - HALFH));
-                bool bottomBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y + HALFH));
+
+
+                bool topBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y - HALFH + INSET));
+                bool bottomBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y + HALFH - INSET));
 
                 if (!settings.useTileSnapping) {
                     if (topBlocked || bottomBlocked) {
@@ -80,8 +84,8 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
             // y movement
             if (world.velocity[e].dy != 0.0f) {
                 float checkY = newY + (entityVel.dy > 0 ? HALFH : -HALFH);
-                bool leftBlocked = !isWalkable(toTile(entityPos.x - HALFW), toTile(checkY));
-                bool rightBlocked = !isWalkable(toTile(entityPos.x + HALFW), toTile(checkY));
+                bool leftBlocked = !isWalkable(toTile(entityPos.x - HALFW + INSET), toTile(checkY));
+                bool rightBlocked = !isWalkable(toTile(entityPos.x + HALFW - INSET), toTile(checkY));
 
                 if (!settings.useTileSnapping) {
                     if (leftBlocked || rightBlocked) {

@@ -3,7 +3,7 @@
 #include "../include/animations.h"
 #include "input.h"
 
-void Player::init(ECSWorld &world, GraphicsAssets *assets, Vec2 startPos, const EngineSettings &settings) {
+void Player::init(ECSWorld &world, GraphicsAssets *assets, vec2 startPos, const EngineSettings &settings) {
     Entity player = world.createEntity();
     entity = player;
 
@@ -79,6 +79,10 @@ void Player::updateAnimation(ECSWorld& world) {
 
     if (dx > 0) sprite.setFlipX(false);
     else if (dx < 0) sprite.setFlipX(true);
+}
+
+bool Player::isFacingLeft(ECSWorld &world) {
+    return (world.velocity[entity].dx < 0);
 }
 
 

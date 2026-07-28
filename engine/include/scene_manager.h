@@ -4,6 +4,7 @@
 class BaseScene;
 class Renderer;
 
+class Camera;
 class SceneManager {
 public:
     SceneManager() = default;
@@ -13,13 +14,15 @@ public:
     void changeScene(BaseScene* next);
 
     void update(float dt);
-    void renderTop(Renderer& renderer);
-    void renderBottom(Renderer& renderer);
+    void renderTop();
+    void renderBottom();
 
     BaseScene* getCurrent() const { return current; }
 
     void setDefaultSettings(EngineSettings& settings);
     EngineSettings& getSettings() { return settings; }
+
+    void setRenderer(Renderer* ren) { renderer = ren; }
 
 private:
     void applyPendingSwitch();
@@ -30,4 +33,6 @@ private:
 
     EngineSettings engine_default_settings;
     EngineSettings settings;
+
+    Renderer* renderer = nullptr;
 };

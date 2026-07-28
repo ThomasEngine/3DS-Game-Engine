@@ -24,7 +24,7 @@ public:
     const TiledMap& getMap() const { return map; }
 
     // Player Start Positiopn in Pixels not Tiles!!
-    Vec2 getPlayerStartPosition() const;
+    vec2 getPlayerStartPosition() const;
 
 
 private:

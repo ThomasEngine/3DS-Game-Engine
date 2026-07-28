@@ -18,8 +18,8 @@ void GameScene::enter() {
     level->load("romfs:/levels/1vs1_level.tmj");
 
     // PlayerStartPos in Pixels
-    const Vec2 playerStartPosPx = level->getPlayerStartPosition();
-    Vec2 playerStartPos;
+    const vec2 playerStartPosPx = level->getPlayerStartPosition();
+    vec2 playerStartPos;
 
     const EngineSettings& settings = manager->getSettings();
     playerStartPos.x = std::floor(playerStartPosPx.x / settings.tileSizePx);

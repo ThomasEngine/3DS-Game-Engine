@@ -2,15 +2,24 @@
 #include <3ds.h>
 #include <citro2d.h>
 #include <citro3d.h>
+#include "camera.h"
 
-struct Camera {
-    float x = 0.0f;
-    float y = 0.0f;
-    float zoom = 1.0f;
+#include "engine_settings.h"
 
-    static constexpr float SCREEN_WIDTH = 400.0f;
-    static constexpr float SCREEN_HEIGHT = 240.0f;
-};
+// struct Camera {
+//     float x = 0.0f;
+//     float y = 0.0f;
+//     float zoom = 1.0f;
+//     float smoothness = 1.0f;
+//
+//     static constexpr float SCREEN_WIDTH = 400.0f;
+//     static constexpr float SCREEN_HEIGHT = 240.0f;
+//
+//     void updateFrustum(float pPosX, float pPosY, const EngineSettings& settings);
+//
+//     // smoothness
+//
+// };
 
 enum Screens
 {

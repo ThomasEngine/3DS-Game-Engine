@@ -10,6 +10,7 @@ static u64 lastTick = 0;
 
 Engine::Engine() :  running(false), delta_time(0.016f) {
     renderer.init();
+    sceneManager.setRenderer(&renderer);
 }
 
 Engine::~Engine() {
@@ -45,13 +46,12 @@ void Engine::run() {
         // Game update
         sceneManager.update(delta_time);
 
-
         // Rendering
         renderer.beginFrame();
         renderer.beginTopScreen();
-        sceneManager.renderTop(renderer);
+        sceneManager.renderTop();
         renderer.beginBottomScreen();
-        sceneManager.renderBottom(renderer);
+        sceneManager.renderBottom();
         renderer.endFrame();
     }
 }

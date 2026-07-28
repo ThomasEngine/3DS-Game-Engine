@@ -43,13 +43,13 @@ void SceneManager::applyPendingSwitch() {
 
     if (current) {
         current->setManager(this);
+        current->setRenderer(renderer);
         current->configurateSettings(settings);
         current->enter();
     }
 }
 
 void SceneManager::update(float dt) {
-    // apply any pending switch BEFORE updating
     applyPendingSwitch();
 
     if (current) {
@@ -57,15 +57,15 @@ void SceneManager::update(float dt) {
     }
 }
 
-void SceneManager::renderTop(Renderer& renderer) {
+void SceneManager::renderTop() {
     if (current) {
-        current->renderTop(renderer);
+        current->renderTop();
     }
 }
 
-void SceneManager::renderBottom(Renderer& renderer) {
+void SceneManager::renderBottom() {
     if (current) {
-        current->renderBottom(renderer);
+        current->renderBottom();
     }
 }
 
