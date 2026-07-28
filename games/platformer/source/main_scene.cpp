@@ -64,8 +64,8 @@ void MainScene::renderTop(Renderer& renderer) {
     const EngineSettings& s = manager->getSettings();
     Camera& cam = renderer.getCamera();
 
-    cam.x = world.position[player.getEntity()].x / 2.0 + 0.5;
-    cam.y = world.position[player.getEntity()].y / 2.0 + 0.5;
+    cam.x = world.position[player.getEntity()].x - 12.5f / 2.0f + 0.5f;
+    cam.y = world.position[player.getEntity()].y - 7.5f  / 2.0f + 0.5f;
 
     cam.x = std::clamp(cam.x, 0.0f, (float)level->getWidth()  - 12.5f);
     cam.y = std::clamp(cam.y, 0.0f, (float)level->getHeight() - 7.5f);
