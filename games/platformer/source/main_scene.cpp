@@ -44,7 +44,8 @@ void MainScene::update(float dt) {
            return level->isWalkable(x, y);
        }, [&](CollisionEvent event, ECSWorld& w) {
            onCollision(event, w);
-       }, dt);
+       }, dt,
+       s);
 
     systems::update_gravity(world, dt, s);
     systems::update_velocity(world, dt, s);

@@ -15,6 +15,6 @@ struct EngineSettings {
     float entityScale    = 2.0f;
 
     // collision
-    bool  useTileSnapping = true;
+    bool  useTileSnapping = false;
     float snapThreshold   = 0.3f;
 };

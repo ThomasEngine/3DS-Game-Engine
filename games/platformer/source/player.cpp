@@ -12,7 +12,7 @@ void Player::init(ECSWorld &world, GraphicsAssets *assets, Vec2 startPos, const 
     world.position[player] = {startPos.x, startPos.y};
     world.velocity[player] = {0.0f, 0.0f};
 
-    speed = 5.0f;
+    speed = 6.0f;
 }
 
 void Player::destroy(ECSWorld &world) {

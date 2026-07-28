@@ -8,33 +8,43 @@
 #include "sprite.h" // only for debugging remove when not
 
 namespace systems {
-    void collision_update(ECSWorld &world, WalkableCallback isWalkable, CollisionCallback onEntityCollision, float dt) {
-        for (Entity e = 0; e < MAX_ENTITIES; e++) {
-            if (!world.isValid(e)) continue;
-            if (!world.hasComponent(e, COMP_POSITION | COMP_VELOCITY)) continue;
+// Collision helpers
+float toTile(float f) { return std::round(f);}
+float tileCenter(float f) { return std::floor(f) + 0.5f;}
 
-            // predict next position
-            float newX = world.position[e].x + world.velocity[e].dx * dt;
-            float newY = world.position[e].y + world.velocity[e].dy * dt;
+// Collision checker
+void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCallback onEntityCollision, float dt, const EngineSettings& settings) {
+    for (Entity e = 0; e < MAX_ENTITIES; e++) {
+        if (!world.isValid(e)) continue;
+        if (!world.hasComponent(e, COMP_POSITION | COMP_VELOCITY)) continue;
 
-            world.sprite[e].sprite.color = C2D_Color32(0, 255, 0, 255);
+        const PositionComponent& entityPos = world.position[e];
+        VelocityComponent& entityVel = world.velocity[e];
 
-            auto toTile = [](float f) { return std::round(f); };
-            auto tileCenter = [](float f) { return std::floor(f) + 0.5f; };
+        // predict next position
+        float newX = entityPos.x + entityVel.dx * dt;
+        float newY = entityPos.y + entityVel.dy * dt;
 
-            if (isWalkable) {
-                const float HALF = 0.45f;
-                const float SNAP = 5;
+        // If WalkableCallback is there, check for collision
+        if (isWalkable) {
+            const float HALF = 0.45; //
+            // x movement
+            if (entityVel.dx != 0.0f) {
+                float checkX = newX + (entityVel.dx > 0 ? HALF : -HALF);
+                bool topBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y - HALF));
+                bool bottomBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y + HALF));
 
-                // x movement
-                if (world.velocity[e].dx != 0.0f) {
-                    float checkX = newX + (world.velocity[e].dx > 0 ? HALF : -HALF);
-                    bool topBlocked = !isWalkable(toTile(checkX), toTile(world.position[e].y - HALF));
-                    bool bottomBlocked = !isWalkable(toTile(checkX), toTile(world.position[e].y + HALF));
-
+                if (!settings.useTileSnapping) {
+                    if (topBlocked || bottomBlocked) {
+                        entityVel.dx = 0.0f;
+                    }
+                } else {
+                    const float SNAP = 5;
                     if (topBlocked && bottomBlocked) {
-                        world.velocity[e].dx = 0.0f;
-                    } else if (topBlocked) {
+                        entityVel.dx = 0.0f;
+                    }
+
+                    else if (topBlocked) {
                         world.velocity[e].dx = 0.0f;
                         if (isWalkable(toTile(world.position[e].x), toTile(world.position[e].y + HALF + 0.1f))) {
                             float target = tileCenter(world.position[e].y) + 1.0f;
@@ -47,7 +57,8 @@ namespace systems {
                                 world.velocity[e].dy = move;
                             }
                         }
-                    } else if (bottomBlocked) {
+                    }
+                    else if (bottomBlocked) {
                         world.velocity[e].dx = 0.0f;
                         if (isWalkable(toTile(world.position[e].x), toTile(world.position[e].y - HALF - 0.1f))) {
                             float target = tileCenter(world.position[e].y) - 1.0f;
@@ -62,13 +73,19 @@ namespace systems {
                         }
                     }
                 }
+            }
+            // y movement
+            if (world.velocity[e].dy != 0.0f) {
+                float checkY = newY + (entityVel.dy > 0 ? HALF : -HALF);
+                bool leftBlocked = !isWalkable(toTile(entityPos.x - HALF), toTile(checkY));
+                bool rightBlocked = !isWalkable(toTile(entityPos.x + HALF), toTile(checkY));
 
-                // y movement
-                if (world.velocity[e].dy != 0.0f) {
-                    float checkY = newY + (world.velocity[e].dy > 0 ? HALF : -HALF);
-                    bool leftBlocked = !isWalkable(toTile(world.position[e].x - HALF), toTile(checkY));
-                    bool rightBlocked = !isWalkable(toTile(world.position[e].x + HALF), toTile(checkY));
-
+                if (!settings.useTileSnapping) {
+                    if (leftBlocked || rightBlocked) {
+                        entityVel.dy = 0.0f;
+                    }
+                } else {
+                    const float SNAP = 5;
                     if (leftBlocked && rightBlocked) {
                         world.velocity[e].dy = 0.0f;
                     } else if (leftBlocked) {
@@ -99,39 +116,38 @@ namespace systems {
                         }
                     }
                 }
-
-                if (world.hasComponent(e, COMP_GRAVITY)) {
-                    float feetY = world.position[e].y + 0.5f;
-                    int tx = (int)std::round(world.position[e].x);
-                    int ty = (int)std::round(feetY + 0.1f);
-
-                    bool solidBelow = !isWalkable(tx, ty);
-                    bool notMovingUp = world.velocity[e].dy >= 0.0f;
-
-                    world.gravity[e].grounded = (solidBelow && notMovingUp) ? 1 : 0;
-                }
             }
+            if (world.hasComponent(e, COMP_GRAVITY)) {
+                float feetY = entityPos.y + 0.5f;
+                int tx = (int)std::round(entityPos.x);
+                int ty = (int)std::round(feetY + 0.1f);
 
-            // entity collision
-            if (onEntityCollision) {
-                for (Entity a = 0; a < MAX_ENTITIES; a++) {
-                    if (!world.isValid(a)) continue;
-                    if (!world.hasComponent(a, COMP_POSITION)) continue;
+                bool solidBelow = !isWalkable(tx, ty);
+                bool notMovingUp = entityVel.dy >= 0.0f;
 
-                    for (Entity b = a + 1; b < MAX_ENTITIES; b++) {
-                        if (!world.isValid(b)) continue;
-                        if (!world.hasComponent(b, COMP_POSITION)) continue;
+                world.gravity[e].grounded = (solidBelow && notMovingUp) ? 1 : 0;
+            }
+        }
+        // entity collision
+        if (onEntityCollision) {
+            for (Entity a = 0; a < MAX_ENTITIES; a++) {
+                if (!world.isValid(a)) continue;
+                if (!world.hasComponent(a, COMP_POSITION)) continue;
 
-                        // check if a and b are close enough to collide
-                        float dx = world.position[a].x - world.position[b].x;
-                        float dy = world.position[a].y - world.position[b].y;
+                for (Entity b = a + 1; b < MAX_ENTITIES; b++) {
+                    if (!world.isValid(b)) continue;
+                    if (!world.hasComponent(b, COMP_POSITION)) continue;
 
-                        if (dx * dx + dy * dy < 1.0f) {
-                            onEntityCollision({ a, b }, world);
-                        }
+                    // check if a and b are close enough to collide
+                    float dx = world.position[a].x - world.position[b].x;
+                    float dy = world.position[a].y - world.position[b].y;
+
+                    if (dx * dx + dy * dy < 1.0f) {
+                        onEntityCollision({ a, b }, world);
                     }
                 }
             }
         }
     }
+}
 }
