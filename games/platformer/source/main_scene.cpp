@@ -35,7 +35,7 @@ void MainScene::exit() {
 
 void MainScene::update(float dt) {
     const EngineSettings& s = manager->getSettings();
-    player.handleInput(world);
+    player.handleInput(world, dt);
     player.updateAnimation(world);
 
    systems::collision_update(

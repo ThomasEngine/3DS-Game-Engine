@@ -25,6 +25,8 @@ enum ComponentFlags : uint32_t {
 struct PositionComponent {
     float x = 0.0f;
     float y = 0.0f;
+    float halfWidth  = 0.45f;
+    float halfHeight = 0.45f;
 };
 
 struct VelocityComponent {

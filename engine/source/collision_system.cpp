@@ -25,14 +25,17 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
         float newX = entityPos.x + entityVel.dx * dt;
         float newY = entityPos.y + entityVel.dy * dt;
 
+        const float HALFW = entityPos.halfWidth;
+        const float HALFH = entityPos.halfHeight;
+
+
         // If WalkableCallback is there, check for collision
         if (isWalkable) {
-            const float HALF = 0.45; //
             // x movement
             if (entityVel.dx != 0.0f) {
-                float checkX = newX + (entityVel.dx > 0 ? HALF : -HALF);
-                bool topBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y - HALF));
-                bool bottomBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y + HALF));
+                float checkX = newX + (entityVel.dx > 0 ? HALFW : -HALFW);
+                bool topBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y - HALFH));
+                bool bottomBlocked = !isWalkable(toTile(checkX), toTile(entityPos.y + HALFH));
 
                 if (!settings.useTileSnapping) {
                     if (topBlocked || bottomBlocked) {
@@ -46,7 +49,7 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
 
                     else if (topBlocked) {
                         world.velocity[e].dx = 0.0f;
-                        if (isWalkable(toTile(world.position[e].x), toTile(world.position[e].y + HALF + 0.1f))) {
+                        if (isWalkable(toTile(world.position[e].x), toTile(world.position[e].y + HALFW + 0.1f))) {
                             float target = tileCenter(world.position[e].y) + 1.0f;
                             float diff = target - world.position[e].y;
                             float move = (diff > 0 ? SNAP : -SNAP);
@@ -60,7 +63,7 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
                     }
                     else if (bottomBlocked) {
                         world.velocity[e].dx = 0.0f;
-                        if (isWalkable(toTile(world.position[e].x), toTile(world.position[e].y - HALF - 0.1f))) {
+                        if (isWalkable(toTile(world.position[e].x), toTile(world.position[e].y - HALFW - 0.1f))) {
                             float target = tileCenter(world.position[e].y) - 1.0f;
                             float diff = target - world.position[e].y;
                             float move = (diff > 0 ? SNAP : -SNAP);
@@ -76,9 +79,9 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
             }
             // y movement
             if (world.velocity[e].dy != 0.0f) {
-                float checkY = newY + (entityVel.dy > 0 ? HALF : -HALF);
-                bool leftBlocked = !isWalkable(toTile(entityPos.x - HALF), toTile(checkY));
-                bool rightBlocked = !isWalkable(toTile(entityPos.x + HALF), toTile(checkY));
+                float checkY = newY + (entityVel.dy > 0 ? HALFH : -HALFH);
+                bool leftBlocked = !isWalkable(toTile(entityPos.x - HALFW), toTile(checkY));
+                bool rightBlocked = !isWalkable(toTile(entityPos.x + HALFW), toTile(checkY));
 
                 if (!settings.useTileSnapping) {
                     if (leftBlocked || rightBlocked) {
@@ -90,7 +93,7 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
                         world.velocity[e].dy = 0.0f;
                     } else if (leftBlocked) {
                         world.velocity[e].dy = 0.0f;
-                        if (isWalkable(toTile(world.position[e].x + HALF + 0.1f), toTile(world.position[e].y))) {
+                        if (isWalkable(toTile(world.position[e].x + HALFH + 0.1f), toTile(world.position[e].y))) {
                             float target = tileCenter(world.position[e].x) + 1.0f;
                             float diff = target - world.position[e].x;
                             float move = (diff > 0 ? SNAP : -SNAP);
@@ -103,7 +106,7 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
                         }
                     } else if (rightBlocked) {
                         world.velocity[e].dy = 0.0f;
-                        if (isWalkable(toTile(world.position[e].x - HALF - 0.1f), toTile(world.position[e].y))) {
+                        if (isWalkable(toTile(world.position[e].x - HALFH - 0.1f), toTile(world.position[e].y))) {
                             float target = tileCenter(world.position[e].x) - 1.0f;
                             float diff = target - world.position[e].x;
                             float move = (diff > 0 ? SNAP : -SNAP);
@@ -118,11 +121,13 @@ void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCal
                 }
             }
             if (world.hasComponent(e, COMP_GRAVITY)) {
-                float feetY = entityPos.y + 0.5f;
-                int tx = (int)std::round(entityPos.x);
-                int ty = (int)std::round(feetY + 0.1f);
+                float feetY = entityPos.y + HALFH;
 
-                bool solidBelow = !isWalkable(tx, ty);
+                int leftX  = (int)std::round(entityPos.x - HALFW);
+                int rightX = (int)std::round(entityPos.x + HALFW);
+                int ty     = (int)std::round(feetY + 0.02f);
+
+                bool solidBelow = !isWalkable(leftX, ty) || !isWalkable(rightX, ty);
                 bool notMovingUp = entityVel.dy >= 0.0f;
 
                 world.gravity[e].grounded = (solidBelow && notMovingUp) ? 1 : 0;

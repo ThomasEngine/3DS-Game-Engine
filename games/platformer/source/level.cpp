@@ -28,7 +28,7 @@ bool Level::load(const std::string& path) {
 
 bool Level::isSolid(int x, int y) const {
     if (x < 0 || x >= width || y < 0 || y >= height) {
-        return true;
+        return false;
     }
     if (!collisionLayer) {
         return false;
