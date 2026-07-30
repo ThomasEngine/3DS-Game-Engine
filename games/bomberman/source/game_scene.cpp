@@ -47,7 +47,8 @@ void GameScene::update(float deltaTime) {
         [&](CollisionEvent event, ECSWorld& w) {
             onCollision(event, w);
         },
-        deltaTime
+        deltaTime,
+        settings
     );
 
     systems::update_velocity(world, deltaTime, settings);
@@ -66,10 +67,10 @@ void GameScene::onCollision(CollisionEvent event, ECSWorld& world) {
 static float printX;
 static float printY;
 
-void GameScene::renderTop(Renderer& renderer) {
+void GameScene::renderTop() {
     world.sprite[player.getEntity()].layer = LAYER_TOP;
     // update camera to follow player
-    Camera& cam = renderer.getCamera();
+    Camera& cam = renderer->getCamera();
     const PositionComponent& position = world.position[player.getEntity()];
     // printX  = cam.x = position.x - SCREEN_TILES_W / 2.0f;
     // printY = cam.y = position.y - SCREEN_TILES_H / 2.0f;
@@ -93,12 +94,12 @@ void GameScene::renderTop(Renderer& renderer) {
 
     draw_tiled_map(level->getMap(), cam, assets->tiles, manager->getSettings());
 
-    systems::render_draw(world, renderer, RenderLayer::LAYER_TOP, manager->getSettings());
+    systems::render_draw(world, *renderer, RenderLayer::LAYER_TOP, manager->getSettings());
 }
 
 #include <string>
-void GameScene::renderBottom(Renderer& renderer) {
-    systems::render_draw(world, renderer, RenderLayer::LAYER_BOTTOM, manager->getSettings());
+void GameScene::renderBottom() {
+    systems::render_draw(world, *renderer, RenderLayer::LAYER_BOTTOM, manager->getSettings());
 
     // DEBUG
     const PositionComponent& position = world.position[player.getEntity()];
@@ -106,5 +107,5 @@ void GameScene::renderBottom(Renderer& renderer) {
 
     char buf[64];
     snprintf(buf, sizeof(buf), "Cam X: %.2f Y: %.2f \n Player X %.2f %.2f", printX, printY, position.x, position.y);
-    renderer.drawText(buf, 0, 0, C2D_Color32(255, 255, 255, 255), 1);
+    renderer->drawText(buf, 0, 0, C2D_Color32(255, 255, 255, 255), 1);
 }

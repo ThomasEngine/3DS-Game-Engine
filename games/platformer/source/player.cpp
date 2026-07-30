@@ -15,9 +15,9 @@ void Player::init(ECSWorld &world, GraphicsAssets *assets, vec2 startPos, const 
     speed = 6.0f;
 
     // init input actions
-    input_bind(Action::ACT_JUMP, KEY_B);
-    input_bind(Action::ACT_LEFT, KEY_CPAD_LEFT | KEY_LEFT);
-    input_bind(Action::ACT_RIGHT, KEY_CPAD_RIGHT | KEY_RIGHT);
+    input::bind(Action::ACT_JUMP, KEY_B);
+    input::bind(Action::ACT_LEFT, KEY_CPAD_LEFT | KEY_LEFT);
+    input::bind(Action::ACT_RIGHT, KEY_CPAD_RIGHT | KEY_RIGHT);
 }
 
 void Player::destroy(ECSWorld &world) {
@@ -31,19 +31,18 @@ void Player::handleInput(ECSWorld &world, float dt) {
         coyote_timer = coyote_duration;
     }
 
-    const float accel = 120.f;
+    const float accel = 40.f;
 
     // Moving left and right
-    // if (input_held(KEY_CPAD_RIGHT) || input_held(KEY_RIGHT)) {
-    if (input_action_held(ACT_RIGHT)) {
+    if (input::held(ACT_RIGHT)) {
         world.velocity[entity].dx += accel * dt;
         if (world.velocity[entity].dx > speed) world.velocity[entity].dx = speed;
     }
-    // if (input_held(KEY_CPAD_LEFT) || input_held(KEY_LEFT)) {
-    if (input_action_held(ACT_LEFT)) {
+    if (input::held(ACT_LEFT)) {
         world.velocity[entity].dx -= accel * dt;
         if (world.velocity[entity].dx < -speed) world.velocity[entity].dx = -speed;
     }
+
 
     // Jumping
     // Coyote timer
@@ -51,20 +50,20 @@ void Player::handleInput(ECSWorld &world, float dt) {
         coyote_timer -= dt;
     }
 
-    if (input_action_buffered(ACT_JUMP) && (grounded || coyote_timer > 0.0f) ) {
+    if (input::action_buffered(ACT_JUMP) && (grounded || coyote_timer > 0.0f) ) {
         world.velocity[entity].dy = -world.gravity[entity].jumpForce;
         grounded = 0;
         coyote_timer = 0.0f;
 
-        input_buffer_use(ACT_JUMP);
+        input::action_buffer_use(ACT_JUMP);
     }
 
-    if (input_action_released(ACT_JUMP) && world.velocity[entity].dy < 0) {
+    if (input::released(ACT_JUMP) && world.velocity[entity].dy < 0) {
         world.velocity[entity].dy *= 0.4f;
     }
 
 
-    if (input_pressed(KEY_X)) {
+    if (input::pressed(KEY_X)) {
         // reset player
         world.position[entity].x = 2;
         world.position[entity].y = 2;
@@ -77,8 +76,11 @@ void Player::handleInput(ECSWorld &world, float dt) {
 void Player::updateAnimation(ECSWorld& world) {
     Sprite& sprite = world.sprite[entity].sprite;
     bool grounded = world.gravity[entity].grounded != 0;
-    float dx = world.velocity[entity].dx;
-    float dy = world.velocity[entity].dy;
+    float& dx = world.velocity[entity].dx;
+    float& dy = world.velocity[entity].dy;
+    if (dx < 0.5 && dx > -0.5) {
+        dx = 0;
+    }
 
     if (!grounded) {
         if (dy < 0) sprite.playAnimation(&PlayerAnims::JUMP);

@@ -8,6 +8,8 @@ struct CameraSettings {
     float lookAheadDistance = 2.0f;
     float lookAheadSmoothing = 3.0f;
 
+    float idleThreshold = 0.5f;
+
     // Damping higher is snappier
     float dampingX = 5.0f;
     float dampingY = 8.0f;

@@ -36,8 +36,7 @@ void Engine::run() {
         touchPosition touch;
         hidTouchRead(&touch);
 
-        input_update(keys_down, keys_held, keys_up, touch);
-        input_update_actions(delta_time);
+        input::update(keys_down, keys_held, keys_up, touch, delta_time);
 
         if (keys_down & KEY_START) {
             running = false;

@@ -7,8 +7,8 @@ struct EngineSettings {
     float gravity = 30.8f;
     float maxFallSpeed = 10.0f;
     bool useFriction = false;
-    float frictionGround = 0.8f;
-    float frictionAir = 1.0f;
+    float frictionGround = 0.0005f;
+    float frictionAir = 0.9f;
 
     // rendering
     int tileSizePx = 16;

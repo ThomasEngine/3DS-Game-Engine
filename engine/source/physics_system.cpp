@@ -22,14 +22,14 @@ namespace systems {
                 // velocity.dx *= pow(settings.friction, dt);
                 // ground friction
                 if (!world.hasComponent(e, COMP_GRAVITY)) {
-                    velocity.dx *= settings.frictionGround;
-                    velocity.dy *= settings.frictionGround;
+                    velocity.dx *= pow(settings.frictionGround, dt);
+                    velocity.dy *= pow(settings.frictionGround, dt);
                 } else {
                     // on ground
                     if (world.gravity[e].grounded) {
-                        velocity.dx *= settings.frictionGround;
+                        velocity.dx *= pow(settings.frictionGround, dt);
                     } else {
-                        velocity.dy *= settings.frictionAir;
+                        velocity.dy *= pow(settings.frictionAir, dt);
                     }
                 }
             }

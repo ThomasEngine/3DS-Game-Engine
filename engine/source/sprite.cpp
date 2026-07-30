@@ -1,6 +1,5 @@
 ﻿#include "sprite.h"
 
-
 void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteStartIndex, const EngineSettings &settings) {
     totalSprites = C2D_SpriteSheetCount(spriteSheet);
     sheet = spriteSheet;
@@ -14,6 +13,8 @@ void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteStartIndex, const En
     C2D_SpriteSetCenter(&sprite, 0.5f, 0.5f);
 
     setScale(settings.entityScale, settings.entityScale);
+
+    applyTransform();
 }
 
 void Sprite::playAnimation(const Animation *anim, bool restart) {
@@ -59,7 +60,11 @@ void Sprite::setPos(float x, float y) {
 }
 
 void Sprite::setScale(float x, float y) {
+    scaleX = x;
+    scaleY = y;
     C2D_SpriteSetScale(&sprite, x, y);
+
+    applyTransform();
 }
 
 void Sprite::setRotation(float angle) {
@@ -98,7 +103,7 @@ void Sprite::updateFrame() {
 }
 
 void Sprite::applyTransform() {
-    float sx = flipX ? -1 : 1;
-    float sy = flipY ? -1 : 1;
+    float sx = flipX ? -scaleX : scaleX;
+    float sy = flipY ? -scaleY : scaleY;
     C2D_SpriteSetScale(&sprite, sx, sy);
 }

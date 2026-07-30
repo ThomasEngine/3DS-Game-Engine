@@ -39,7 +39,7 @@ void MainScene::enter() {
     cam.settings.dampingX = 6.0f;
     cam.settings.dampingY = 8.0f;
     cam.settings.offsetY = 1.5f;
-    cam.settings.lookAheadDistance = 1.0f;
+    cam.settings.lookAheadDistance = 1.5f;
 
     // level bounds
     cam.minX = 0.0f;
