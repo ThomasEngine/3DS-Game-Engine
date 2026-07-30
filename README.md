@@ -27,8 +27,8 @@ Output goes to `build/<name>/<name>.3dsx`
 
 ## Credits
 
-- [devkitPro](https://devkitpro.org/) — 3DS toolchain and libraries
-- [cJSON](https://github.com/DaveGamble/cJSON) — JSON parsing (MIT)
+- [devkitPro](https://devkitpro.org/) 3DS toolchain and libraries
+- [cJSON](https://github.com/DaveGamble/cJSON) JSON parsing (MIT)
 
 ## License
 
