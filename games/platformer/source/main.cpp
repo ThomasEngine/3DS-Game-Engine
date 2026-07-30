@@ -5,6 +5,7 @@ int main() {
     EngineSettings defaultSettings;
     defaultSettings.tileScale = 2;
     defaultSettings.entityScale = 1;
+    defaultSettings.useFriction = true;
 
     Engine engine;
     engine.setDefaultSettings(defaultSettings);

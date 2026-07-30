@@ -21,9 +21,9 @@ void camera_update(ECSWorld &world, Camera &cam, int facing, float dt, const Eng
     float desiredY = targetPos.y + s.offsetY - halfScreenH;
 
     // apply lookahead
-    // float targetLookX = facing * s.lookAheadDistance;
-    // cam.lookAheadX += (targetLookX - cam.lookAheadX) * s.lookAheadSmoothing * dt;
-    // desiredX += cam.lookAheadX;
+    float targetLookX = facing * s.lookAheadDistance;
+    cam.lookAheadX += (targetLookX - cam.lookAheadX) * s.lookAheadSmoothing * dt;
+    desiredX += cam.lookAheadX;
 
     // dead zone only moves camera if target is outside it
     float dx = desiredX - cam.x;

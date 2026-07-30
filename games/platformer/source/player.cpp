@@ -27,12 +27,17 @@ void Player::handleInput(ECSWorld &world, float dt) {
         coyote_timer = coyote_duration;
     }
 
+    const float accel = 10000.f;
+
     // Moving left and right
     if (input_held(KEY_CPAD_RIGHT) || input_held(KEY_RIGHT)) {
-        world.velocity[entity].dx = speed;
+        world.velocity[entity].dx += accel * dt;
+        if (world.velocity[entity].dx > speed) world.velocity[entity].dx = speed;
     }
     if (input_held(KEY_CPAD_LEFT) || input_held(KEY_LEFT)) {
-        world.velocity[entity].dx = -speed;
+
+        world.velocity[entity].dx -= accel * dt;
+        if (world.velocity[entity].dx < -speed) world.velocity[entity].dx = -speed;
     }
 
     // Jumping
@@ -77,12 +82,12 @@ void Player::updateAnimation(ECSWorld& world) {
         sprite.playAnimation(&PlayerAnims::IDLE);
     }
 
-    if (dx > 0) sprite.setFlipX(false);
-    else if (dx < 0) sprite.setFlipX(true);
+    if (dx > 0) { sprite.setFlipX(false); facing_left = false; }
+    else if (dx < 0) { sprite.setFlipX(true); facing_left = true;}
 }
 
 bool Player::isFacingLeft(ECSWorld &world) {
-    return (world.velocity[entity].dx < 0);
+    return facing_left;
 }
 
 

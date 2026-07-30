@@ -34,12 +34,12 @@ void MainScene::enter() {
 
     // Set camera settings for this scene
     Camera& cam = renderer->getCamera();
-    cam.settings.deadZoneW = 1.0f;
+    cam.settings.deadZoneW = 0.5f;
     cam.settings.deadZoneH = 1.0f;
-    cam.settings.dampingX = 5.0f;
+    cam.settings.dampingX = 6.0f;
     cam.settings.dampingY = 8.0f;
     cam.settings.offsetY = 1.5f;
-    cam.settings.lookAheadDistance = 4.0f;
+    cam.settings.lookAheadDistance = 1.0f;
 
     // level bounds
     cam.minX = 0.0f;

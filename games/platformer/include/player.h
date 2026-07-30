@@ -26,4 +26,5 @@ private:
     float coyote_timer = 0.0f;
     float coyote_duration = 0.15f;
     bool was_grounded = false;
+    bool facing_left = false;
 };
