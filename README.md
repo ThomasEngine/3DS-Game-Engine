@@ -15,7 +15,7 @@
 - **devkitPro** with 3DS toolchain (`libctru`, `citro2d`, `citro3d`)
 - **Python 3** with Pillow (`pip install Pillow`) for the sprite slicer
 - **[Tiled](https://www.mapeditor.org/)** for editing levels
-- **[Citra](https://citra-emu.org/)** or a modded 3DS — for running
+- **[Citra](https://citra-emu.org/)** or a modded 3DS for running
 
 For installing devkitPro, follow this guide:
 [3DS Homebrew Development Getting Started](https://gbatemp.net/threads/3ds-homebrew-development-getting-started-guide.666095/)
