@@ -36,15 +36,15 @@ inline GraphicsAssets* graphics_load_assets() {
 
     //
     Background background1;
-    load_background(background1, "romfs:/gfx/Background3.t3x", 0.75f, 2.0f);
+    background::load(background1, "romfs:/gfx/Background3.t3x", 0.75f, 2.0f);
     assets->backgrounds.push_back(background1);
 
     Background background2;
-    load_background(background2, "romfs:/gfx/Background2.t3x", 1.0f, 2.0f);
+    background::load(background2, "romfs:/gfx/Background2.t3x", 1.0f, 2.0f);
     assets->backgrounds.push_back(background2);
 
     Background background3;
-    load_background(background3, "romfs:/gfx/Background1.t3x", 2.f, 2.0f);
+    background::load(background3, "romfs:/gfx/Background1.t3x", 2.f, 2.0f);
     assets->backgrounds.push_back(background3);
 
 

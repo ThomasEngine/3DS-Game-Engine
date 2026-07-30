@@ -35,7 +35,7 @@ void MainScene::enter() {
     // Set camera settings for this scene
     Camera& cam = renderer->getCamera();
     cam.settings.deadZoneW = 0.5f;
-    cam.settings.deadZoneH = 1.0f;
+    cam.settings.deadZoneH = 10.0f;
     cam.settings.dampingX = 6.0f;
     cam.settings.dampingY = 8.0f;
     cam.settings.offsetY = 1.5f;
@@ -90,7 +90,7 @@ void MainScene::renderTop() {
     const EngineSettings& s = manager->getSettings();
     Camera& cam = renderer->getCamera();
 
-    draw_parallax_backgrounds(assets->backgrounds, cam, s);
+    background::draw_parallax(assets->backgrounds, cam, s);
     draw_tiled_map(level->getMap(), cam, assets->tiles, s);
     systems::render_draw(world, *renderer, RenderLayer::LAYER_TOP, s);
 }
