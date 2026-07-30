@@ -15,7 +15,7 @@ SceneManager::~SceneManager() {
     }
 }
 
-void SceneManager::changeScene(BaseScene* next) {
+void SceneManager::changeScene(BaseScene *next) {
     // store the request
     // if a pending scene already exists, delete it.
     if (pending && pending != next) {
@@ -69,7 +69,7 @@ void SceneManager::renderBottom() {
     }
 }
 
-void SceneManager::setDefaultSettings(EngineSettings& s) {
+void SceneManager::setDefaultSettings(EngineSettings &s) {
     engine_default_settings = s;
     settings = s;
 }

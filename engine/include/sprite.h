@@ -11,29 +11,35 @@ struct Animation {
     bool loop;
 };
 
-class Sprite
-{
+class Sprite {
 public:
     Sprite() = default;
+
     ~Sprite() = default;
-    
-    void init(C2D_SpriteSheet sheet, size_t spriteIndex, const EngineSettings& settings);
+
+    void init(C2D_SpriteSheet sheet, size_t spriteIndex, const EngineSettings &settings);
+
     void destroy();
-    
+
     // Play an animation
-    void playAnimation(const Animation* anim, bool restart = false);
+    void playAnimation(const Animation *anim, bool restart = false);
+
     void stopAnimation();
-    
+
     // Update every tick
     void update(float dt);
-    
+
     bool isFinished() const { return finished; }
-    
+
     // Transform
     void setPos(float x, float y);
+
     void setScale(float x, float y);
+
     void setRotation(float angle);
+
     void setOrigin(float x, float y);
+
     void setCurrentFrame(size_t frame);
 
     float getX() const { return sprite.params.pos.x; }
@@ -42,15 +48,23 @@ public:
     float getHeight() const { return sprite.params.pos.h; }
     float getRotation() const { return sprite.params.angle; }
 
-    void setFlipX(bool flip) { flipX = flip; applyTransform(); };
-    void setFlipY(bool flip) { flipY = flip; applyTransform(); };
+    void setFlipX(bool flip) {
+        flipX = flip;
+        applyTransform();
+    };
+
+    void setFlipY(bool flip) {
+        flipY = flip;
+        applyTransform();
+    };
 
     void draw() const;
 
-    uint32_t color = C2D_Color32(0,255,0,255);
-    
+    uint32_t color = C2D_Color32(0, 255, 0, 255);
+
 private:
     void updateFrame();
+
     void applyTransform();
 
     bool flipX = false;
@@ -59,7 +73,7 @@ private:
     C2D_Sprite sprite;
     C2D_SpriteSheet sheet = nullptr;
     size_t currentFrame;
-    const Animation* currentAnim = nullptr;
+    const Animation *currentAnim = nullptr;
     float animTimer;
     size_t animFrameIndex;
     size_t totalSprites;

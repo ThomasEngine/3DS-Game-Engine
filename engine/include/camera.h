@@ -45,7 +45,4 @@ struct Camera {
 };
 
 
-
-
-
-void camera_update(ECSWorld& world, Camera& cam, int facing, float dt, const EngineSettings& settings);
+void camera_update(ECSWorld &world, Camera &cam, int facing, float dt, const EngineSettings &settings);

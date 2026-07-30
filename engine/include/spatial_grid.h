@@ -11,10 +11,13 @@ public:
     void clear();
 
     void insert(Entity e, float tx, float ty);
+
     void remove(float tx, float ty);
 
     Entity getAt(int x, int y) const;
+
     bool isEmpty(int x, int y) const;
+
     bool isInBounds(int x, int y) const;
 
     int getWidth() const { return width; }
@@ -25,6 +28,6 @@ public:
 
 private:
     Entity cells[MAX_W][MAX_H];
-    int width  = 0;
+    int width = 0;
     int height = 0;
 };

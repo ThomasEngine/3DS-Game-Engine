@@ -15,10 +15,12 @@ struct Background {
 };
 
 // Load a background Image into a background
-bool load_background(Background& bg, const char* path, float parallax, float scale = 1.0f, bool flipX = true, bool flipY = false);
+bool load_background(Background &bg, const char *path, float parallax, float scale = 1.0f, bool flipX = true,
+                     bool flipY = false);
 
 // Free a backgrounds sheet
-void free_background(Background& bg);
+void free_background(Background &bg);
 
 // Draw a list of backgrounds with parallax
-void draw_parallax_backgrounds(const std::vector<Background>& backgrounds, const Camera& camera, const EngineSettings& settings);
+void draw_parallax_backgrounds(const std::vector<Background> &backgrounds, const Camera &camera,
+                               const EngineSettings &settings);

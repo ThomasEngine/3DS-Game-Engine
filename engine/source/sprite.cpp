@@ -1,14 +1,14 @@
 ﻿#include "sprite.h"
 
 
-void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteStartIndex, const EngineSettings& settings) {
+void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteStartIndex, const EngineSettings &settings) {
     totalSprites = C2D_SpriteSheetCount(spriteSheet);
-    sheet        = spriteSheet;
+    sheet = spriteSheet;
     currentFrame = spriteStartIndex;
-    currentAnim  = nullptr;
-    animTimer    = 0.0f;
+    currentAnim = nullptr;
+    animTimer = 0.0f;
     animFrameIndex = 0;
-    finished     = false;
+    finished = false;
 
     C2D_SpriteFromSheet(&sprite, sheet, spriteStartIndex);
     C2D_SpriteSetCenter(&sprite, 0.5f, 0.5f);
@@ -16,20 +16,20 @@ void Sprite::init(C2D_SpriteSheet spriteSheet, size_t spriteStartIndex, const En
     setScale(settings.entityScale, settings.entityScale);
 }
 
-void Sprite::playAnimation(const Animation* anim, bool restart) {
+void Sprite::playAnimation(const Animation *anim, bool restart) {
     if (currentAnim == anim && !restart) return;
 
-    currentAnim    = anim;
+    currentAnim = anim;
     animFrameIndex = 0;
-    animTimer      = 0.0f;
-    finished       = false;
+    animTimer = 0.0f;
+    finished = false;
 
     updateFrame();
 }
 
 void Sprite::stopAnimation() {
     currentAnim = nullptr;
-    finished    = false;
+    finished = false;
 }
 
 void Sprite::update(float dt) {
@@ -102,4 +102,3 @@ void Sprite::applyTransform() {
     float sy = flipY ? -1 : 1;
     C2D_SpriteSetScale(&sprite, sx, sy);
 }
-

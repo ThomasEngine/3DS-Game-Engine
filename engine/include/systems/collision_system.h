@@ -10,9 +10,9 @@ public:
 };
 
 using WalkableCallback = std::function<bool(int x, int y)>;
-using CollisionCallback = std::function<void(CollisionEvent event, ECSWorld& world)>;
+using CollisionCallback = std::function<void(CollisionEvent event, ECSWorld &world)>;
 
 namespace systems {
-    void collision_update(ECSWorld& world, WalkableCallback isWalkable, CollisionCallback onEntityCollision, float dt, const EngineSettings& settings);
+    void collision_update(ECSWorld &world, WalkableCallback isWalkable, CollisionCallback onEntityCollision, float dt,
+                          const EngineSettings &settings);
 }
-

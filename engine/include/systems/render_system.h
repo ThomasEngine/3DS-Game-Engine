@@ -3,8 +3,5 @@
 #include "renderer.h"
 
 namespace systems {
-    void render_draw(ECSWorld& world, Renderer& renderer, RenderLayer layer, const EngineSettings& settings);
+    void render_draw(ECSWorld &world, Renderer &renderer, RenderLayer layer, const EngineSettings &settings);
 }
-
-
-

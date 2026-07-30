@@ -4,7 +4,7 @@
 #include <cmath>
 
 void camera_update(ECSWorld &world, Camera &cam, int facing, float dt, const EngineSettings &settings) {
-    const CameraSettings& s = cam.settings;
+    const CameraSettings &s = cam.settings;
 
     Entity target = cam.target;
 

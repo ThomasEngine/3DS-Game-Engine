@@ -3,6 +3,5 @@
 
 
 namespace systems {
-    void update_animation(ECSWorld& world, float dt);
+    void update_animation(ECSWorld &world, float dt);
 }
-

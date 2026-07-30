@@ -4,7 +4,7 @@
 #include "game_assets.h"
 #include "vec2.h"
 
-// Player wrapper for platformer
+// Player Entity wrapper for platformer
 class Player {
 public:
     Player() : entity(INVALID_ENTITY) {}

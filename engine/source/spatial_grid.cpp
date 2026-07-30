@@ -1,7 +1,7 @@
 ﻿#include "spatial_grid.h"
 
 void SpatialGrid::init(int w, int h) {
-    width  = w;
+    width = w;
     height = h;
     clear();
 }
@@ -13,15 +13,15 @@ void SpatialGrid::clear() {
 }
 
 void SpatialGrid::insert(Entity e, float tx, float ty) {
-    int x = (int)tx;
-    int y = (int)ty;
+    int x = (int) tx;
+    int y = (int) ty;
     if (x >= 0 && x < width && y >= 0 && y < height)
         cells[x][y] = e;
 }
 
 void SpatialGrid::remove(float tx, float ty) {
-    int x = (int)tx;
-    int y = (int)ty;
+    int x = (int) tx;
+    int y = (int) ty;
     if (x >= 0 && x < width && y >= 0 && y < height)
         cells[x][y] = INVALID_ENTITY;
 }

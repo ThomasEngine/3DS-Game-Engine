@@ -25,7 +25,7 @@ enum ComponentFlags : uint32_t {
 struct PositionComponent {
     float x = 0.0f;
     float y = 0.0f;
-    float halfWidth  = 0.45f;
+    float halfWidth = 0.45f;
     float halfHeight = 0.45f;
 };
 
@@ -35,18 +35,18 @@ struct VelocityComponent {
 };
 
 struct GravityComponent {
-    float weight     = 1.0f;
-    float jumpForce  = 12.0f;
-    int   grounded   = 0;
+    float weight = 1.0f;
+    float jumpForce = 12.0f;
+    int grounded = 0;
 };
 
 enum RenderLayer : uint32_t {
-    LAYER_TOP    = 0,
+    LAYER_TOP = 0,
     LAYER_BOTTOM = 1,
 };
 
 struct SpriteComponent {
-    Sprite      sprite;
+    Sprite sprite;
     RenderLayer layer = LAYER_TOP;
 };
 
@@ -56,13 +56,13 @@ struct HealthComponent {
 };
 
 struct AIComponent {
-    AIState state         = AI_IDLE;
+    AIState state = AI_IDLE;
     AIState previousState = AI_IDLE;
-    float   speed         = 1.0f;
-    Entity  target        = INVALID_ENTITY;
-    float   detectionRange = 5.0f;
-    float   wanderTimer   = 0.0f;
-    float   stunTimer     = 0.0f;
+    float speed = 1.0f;
+    Entity target = INVALID_ENTITY;
+    float detectionRange = 5.0f;
+    float wanderTimer = 0.0f;
+    float stunTimer = 0.0f;
 };
 
 struct PatrolComponent {
@@ -70,7 +70,7 @@ struct PatrolComponent {
     float y1 = 0.0f;
     float x2 = 0.0f;
     float y2 = 0.0f;
-    int goingToB = (int)true; // direction of travel
+    int goingToB = (int) true; // direction of travel
 };
 
 // The world owns all entity and component data
@@ -96,9 +96,14 @@ public:
 
     // Entity management
     Entity createEntity();
+
     void destroyEntity(Entity e);
+
     bool isValid(Entity e);
+
     bool hasComponent(Entity e, uint32_t flag) const;
+
     void addComponent(Entity e, uint32_t flag);
+
     void removeComponent(Entity e, uint32_t flag);
 };

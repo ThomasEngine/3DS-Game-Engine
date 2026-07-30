@@ -1,9 +1,8 @@
 ﻿#include "animation_system.h"
 
 
-
 namespace systems {
-    void update_animation(ECSWorld& world, float dt) {
+    void update_animation(ECSWorld &world, float dt) {
         for (Entity e = 0; e < MAX_ENTITIES; e++) {
             if (!world.isValid(e)) continue;
             if (!world.hasComponent(e, COMP_SPRITE | COMP_POSITION)) continue;

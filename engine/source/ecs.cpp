@@ -18,7 +18,7 @@ void ECSWorld::destroyEntity(Entity e) {
 }
 
 bool ECSWorld::isValid(Entity e) {
-   return  e < MAX_ENTITIES && active[e];
+    return e < MAX_ENTITIES && active[e];
 }
 
 bool ECSWorld::hasComponent(Entity e, uint32_t flag) const {

@@ -1,6 +1,6 @@
-﻿#include "../include/player.h"
+﻿#include "player.h"
 
-#include "../include/animations.h"
+#include "animations.h"
 #include "input.h"
 
 void Player::init(ECSWorld &world, GraphicsAssets *assets, vec2 startPos, const EngineSettings &settings) {
@@ -13,6 +13,11 @@ void Player::init(ECSWorld &world, GraphicsAssets *assets, vec2 startPos, const 
     world.velocity[player] = {0.0f, 0.0f};
 
     speed = 6.0f;
+
+    // init input actions
+    input_bind(Action::ACT_JUMP, KEY_B);
+    input_bind(Action::ACT_LEFT, KEY_CPAD_LEFT | KEY_LEFT);
+    input_bind(Action::ACT_RIGHT, KEY_CPAD_RIGHT | KEY_RIGHT);
 }
 
 void Player::destroy(ECSWorld &world) {
@@ -20,22 +25,22 @@ void Player::destroy(ECSWorld &world) {
 }
 
 void Player::handleInput(ECSWorld &world, float dt) {
-    world.velocity[entity].dx = 0.0f;
     int& grounded = world.gravity[entity].grounded;
 
     if (was_grounded && !grounded) {
         coyote_timer = coyote_duration;
     }
 
-    const float accel = 10000.f;
+    const float accel = 120.f;
 
     // Moving left and right
-    if (input_held(KEY_CPAD_RIGHT) || input_held(KEY_RIGHT)) {
+    // if (input_held(KEY_CPAD_RIGHT) || input_held(KEY_RIGHT)) {
+    if (input_action_held(ACT_RIGHT)) {
         world.velocity[entity].dx += accel * dt;
         if (world.velocity[entity].dx > speed) world.velocity[entity].dx = speed;
     }
-    if (input_held(KEY_CPAD_LEFT) || input_held(KEY_LEFT)) {
-
+    // if (input_held(KEY_CPAD_LEFT) || input_held(KEY_LEFT)) {
+    if (input_action_held(ACT_LEFT)) {
         world.velocity[entity].dx -= accel * dt;
         if (world.velocity[entity].dx < -speed) world.velocity[entity].dx = -speed;
     }
@@ -46,13 +51,15 @@ void Player::handleInput(ECSWorld &world, float dt) {
         coyote_timer -= dt;
     }
 
-    if (input_pressed(KEY_B) && (grounded || coyote_timer > 0.0f) ) {
+    if (input_action_buffered(ACT_JUMP) && (grounded || coyote_timer > 0.0f) ) {
         world.velocity[entity].dy = -world.gravity[entity].jumpForce;
         grounded = 0;
         coyote_timer = 0.0f;
+
+        input_buffer_use(ACT_JUMP);
     }
 
-    if (input_released(KEY_B) && world.velocity[entity].dy < 0) {
+    if (input_action_released(ACT_JUMP) && world.velocity[entity].dy < 0) {
         world.velocity[entity].dy *= 0.4f;
     }
 

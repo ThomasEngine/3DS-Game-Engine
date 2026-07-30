@@ -17,8 +17,8 @@ struct TiledProperty {
     std::string type;
     std::string value_s;
     float value_f = 0.0f;
-    int   value_i = 0;
-    bool  value_b = false;
+    int value_i = 0;
+    bool value_b = false;
 };
 
 struct TiledObject {
@@ -39,16 +39,14 @@ struct TiledObjectLayer {
 };
 
 struct TiledMap {
-    std::vector<TiledLayer>       layers;
+    std::vector<TiledLayer> layers;
     std::vector<TiledObjectLayer> objectLayers;
-    int tileWidth  = 0;
+    int tileWidth = 0;
     int tileHeight = 0;
-    int width  = 0;
+    int width = 0;
     int height = 0;
 };
 
-bool loadTiledMap(const std::string& filePath, TiledMap& outMap);
+bool loadTiledMap(const std::string &filePath, TiledMap &outMap);
 
-const TiledProperty* findObjectProperty(const TiledObject& obj, const std::string& name);
-
-
+const TiledProperty *findObjectProperty(const TiledObject &obj, const std::string &name);
