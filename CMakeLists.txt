@@ -10,7 +10,7 @@ file(GLOB_RECURSE ENGINE_SOURCES
         "engine/external/cjson/cJSON.c"
 )
 
-add_library(engine STATIC ${ENGINE_SOURCES} "engine/source/network_system.cpp" "engine/include/systems/network_system.h")
+add_library(engine STATIC ${ENGINE_SOURCES})
 target_include_directories(engine PUBLIC
         engine/include
         engine/include/systems
@@ -28,7 +28,7 @@ foreach(game ${GAME_DIRS})
 
         # only create a target if the game has source files
         if(GAME_SOURCES)
-            add_executable(${game} ${GAME_SOURCES} "engine/source/network_system.cpp" "engine/include/systems/network_system.h")
+            add_executable(${game} ${GAME_SOURCES})
             target_include_directories(${game} PRIVATE games/${game}/include)
             target_link_libraries(${game} engine)
             message(STATUS "Created target: ${game}")

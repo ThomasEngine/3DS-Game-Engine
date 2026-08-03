@@ -2,7 +2,7 @@
 #include <3ds.h>
 
 
-class NetworkSystem {
+namespace network {
 public:
 	void networkInit();
 	void networkShutdown();
@@ -20,6 +20,4 @@ private:
 	udsBindContext bindctx;
 	u32 tick = 0;
 	u8 recvbuf[UDS_DATAFRAME_MAXSIZE];
-
-
 };
