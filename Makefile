@@ -39,7 +39,8 @@ ASFLAGS  := -g $(ARCH)
 LDFLAGS  = -specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
 LIBS     := -lcitro2d -lcitro3d -lctru -lm
-LIBDIRS  := $(CTRULIB)
+PORTLIBS := $(DEVKITPRO)/portlibs/3ds $(DEVKITPRO)/portlibs/armv6k
+LIBDIRS  := $(CTRULIB) $(PORTLIBS)
 
 ifneq ($(notdir $(BUILD)),$(notdir $(CURDIR)))
 
@@ -98,6 +99,7 @@ info:
 else
 
 DEPENDS := $(OFILES:.o=.d)
+$(info INCLUDE = $(INCLUDE))
 
 $(OUTPUT).elf: $(OFILES)
 	@echo "Linking $(notdir $@)"
