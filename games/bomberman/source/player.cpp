@@ -8,8 +8,8 @@ void Player::init(ECSWorld& world, GraphicsAssets* assets, float startX, float s
 
     world.addComponent(player, COMP_POSITION | COMP_SPRITE | COMP_VELOCITY);
     world.sprite[player].sprite.init(assets->sprites, 1, settings);
-    world.position[player] = {startX, startY};
-    world.velocity[player] = {0.0f, 0.0f};
+    world.position[player].pos = {startX, startY};
+    world.velocity[player].dir = {0.0f, 0.0f};
 
     speed = 5.0f;
 
@@ -23,31 +23,30 @@ void Player::destroy(ECSWorld& world) {
     world.destroyEntity(entity);
 }
 void Player::handleInput(ECSWorld& world) {
-    world.velocity[entity].dx = 0.0f;
-    world.velocity[entity].dy = 0.0f;
+    vec2& velocity = world.velocity[entity].dir;
+    velocity.x = 0.0f;
+    velocity.y = 0.0f;
 
     bool moving = false;
     Sprite& sprite = world.sprite[entity].sprite;
 
     if (input::held(ACT_RIGHT)) {
-        world.velocity[entity].dx =  speed;
+        velocity.x =  speed;
         sprite.playAnimation(&PlayerAnims::WALK_RIGHT);
-        sprite.setFlipX(false);
         moving = true;
     }
     if (input::held(ACT_LEFT)) {
-        world.velocity[entity].dx = -speed;
+        velocity.x = -speed;
         sprite.playAnimation(&PlayerAnims::WALK_LEFT);
-        sprite.setFlipX(true);
         moving = true;
     }
     if (input::held(ACT_UP)) {
-        world.velocity[entity].dy = -speed;
+        velocity.y = -speed;
         sprite.playAnimation(&PlayerAnims::WALK_UP);
         moving = true;
     }
     if (input::held(ACT_DOWN)) {
-        world.velocity[entity].dy =  speed;
+        velocity.y =  speed;
         sprite.playAnimation(&PlayerAnims::WALK_DOWN);
         moving = true;
     }

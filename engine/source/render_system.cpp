@@ -10,13 +10,15 @@ namespace systems {
 
         for (Entity e = 0; e < MAX_ENTITIES; e++) {
             if (!world.isValid(e)) continue;
-            if (!world.hasComponent(e, COMP_SPRITE)) continue;
+            if (!world.hasComponent(e, COMP_SPRITE | COMP_POSITION)) continue;
             if (world.sprite[e].layer != layer) continue;
 
             Sprite &sprite = world.sprite[e].sprite;
 
-            float px = (world.position[e].x - cam.x + 0.5) * settings.tileSizePx * settings.tileScale;
-            float py = (world.position[e].y - cam.y + 0.5) * settings.tileSizePx * settings.tileScale;
+            const vec2& pos = world.position[e].pos;
+
+            float px = (pos.x - cam.x + 0.5) * settings.tileSizePx * settings.tileScale;
+            float py = (pos.y - cam.y + 0.5) * settings.tileSizePx * settings.tileScale;
             sprite.setPos(px, py);
             sprite.draw();
         }

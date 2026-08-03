@@ -78,5 +78,4 @@ namespace input {
     void action_buffer_use(Action a) {
         actionBuffer[a] = 0.0f;
     }
-
 }

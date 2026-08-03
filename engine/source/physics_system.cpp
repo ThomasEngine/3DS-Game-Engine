@@ -12,28 +12,26 @@ namespace systems {
             if (!world.isValid(e)) continue;
             if (!world.hasComponent(e, COMP_POSITION | COMP_VELOCITY)) continue;
 
-            PositionComponent &position = world.position[e];
-            VelocityComponent &velocity = world.velocity[e];
+            vec2 &position = world.position[e].pos;
+            vec2 &velocity = world.velocity[e].dir;
 
-            position.x += velocity.dx * dt;
-            position.y += velocity.dy * dt;
+            position += velocity * dt;
 
             if (settings.useFriction) {
                 // velocity.dx *= pow(settings.friction, dt);
                 // ground friction
                 if (!world.hasComponent(e, COMP_GRAVITY)) {
-                    velocity.dx *= pow(settings.frictionGround, dt);
-                    velocity.dy *= pow(settings.frictionGround, dt);
+                    velocity *= pow(settings.frictionGround, dt);
                 } else {
                     // on ground
                     if (world.gravity[e].grounded) {
-                        velocity.dx *= pow(settings.frictionGround, dt);
+                        velocity.x *= pow(settings.frictionGround, dt);
                     } else {
-                        velocity.dy *= pow(settings.frictionAir, dt);
+                        velocity.y *= pow(settings.frictionAir, dt);
                     }
                 }
             }
-            if (std::abs(velocity.dx) < 0.001f) velocity.dx = 0.0f;
+            if (std::abs(velocity.x) < 0.001f) velocity.x = 0.0f;
         }
     }
 
@@ -42,10 +40,12 @@ namespace systems {
             if (!world.isValid(e)) continue;
             if (!world.hasComponent(e, COMP_GRAVITY | COMP_VELOCITY)) continue;
 
+            vec2& velocity = world.velocity[e].dir;
+
             if (!world.gravity[e].grounded) {
-                world.velocity[e].dy += settings.gravity * world.gravity[e].weight * dt;
-                if (world.velocity[e].dy > settings.maxFallSpeed)
-                    world.velocity[e].dy = settings.maxFallSpeed;
+                velocity.y += settings.gravity * world.gravity[e].weight * dt;
+                if (velocity.y > settings.maxFallSpeed)
+                    velocity.y = settings.maxFallSpeed;
             }
         }
     }

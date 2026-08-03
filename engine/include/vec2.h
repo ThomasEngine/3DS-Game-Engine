@@ -39,6 +39,11 @@ struct vec2 {
         return *this;
     }
 
+    vec2 &operator*=(const int i) {
+        x *= i, y *= i;
+        return *this;
+    }
+
     bool operator==(const vec2 &rhs) const { return x == rhs.x && y == rhs.y; }
     bool operator!=(const vec2 &rhs) const { return x != rhs.x || y != rhs.y; }
 
