@@ -3,30 +3,29 @@
 #include "input.h"
 
 void MainScene::enter() {
-	networkSystem = new NetworkSystem();
-	networkSystem->networkInit();
+	net::init();
 }
 
 void MainScene::exit() {
-	networkSystem->networkShutdown();
+	net::exit();
 }
 
 void MainScene::update(float dt) {
 	
 	if (input::pressed(KEY_A)) {
-		networkSystem->hostGame();
+		net::host_game();
 	}
 	if (input::pressed(KEY_B)) {
-		networkSystem->findAndJoinGame();
+		net::find_and_join_host();
 	}
 
-	networkSystem->update();
+	net::update();
 }
 
 void MainScene::renderBottom() {
 	
 	char buf[64];
-	snprintf(buf, sizeof(buf), "Connected: %s Host: %s", networkSystem->isConnected() ? "yes": "no", networkSystem->isHost() ? "yes" : "no");
+	snprintf(buf, sizeof(buf), "Connected: %s Host: %s", net::is_connected() ? "yes" : "no", net::is_host() ? "yes" : "no");
 	renderer->drawText(buf, 0, 0, C2D_Color32(255, 255, 255, 255), 1);
 
 }
