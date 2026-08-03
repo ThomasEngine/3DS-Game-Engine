@@ -9,7 +9,6 @@ public:
     void enter() override {}
     void exit() override {}
     void update(float dt) override {}
-    void renderTop(Renderer& renderer) override {}
-    void renderBottom(Renderer& renderer) override {}
-
+    void renderTop() override {}
+    void renderBottom() override {}
 };
