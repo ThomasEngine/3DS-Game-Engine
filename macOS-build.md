@@ -280,13 +280,24 @@ alternative; fine as a secondary check, not the primary target.
   regenerate them.
 - **`tools/sprite_sheet_slicer.bat` is Windows-only.** Use `python3 tools/slice.py`
   directly. Needs Pillow: `pip3 install Pillow`.
-- **`CMakeLists.txt` used to hardcode `C:/devkitPro/...` include paths** — fixed
-  2026-08-03, now `$ENV{DEVKITPRO}/libctru/include` and
-  `$ENV{DEVKITPRO}/devkitARM/arm-none-eabi/include`. This file is for IDE
-  indexing only; the real build is the `Makefile`. Note that CLion must be
-  launched with `DEVKITPRO` in its environment for this to resolve — if you start
-  it from Spotlight rather than a shell, it may not inherit your
-  `~/.bash_profile`. Launching via `open -a CLion` from a terminal works.
+- **`CMakeLists.txt` used to hardcode `C:/devkitPro/...` include paths** — now
+  uses `$ENV{DEVKITPRO}` with a platform fallback (macOS/Linux: `/opt/devkitpro`;
+  Windows: `C:/devkitPro`). This file is for IDE indexing only; the real build is
+  the `Makefile`.
+
+  The fallback is load-bearing on **both** platforms, not just a convenience:
+
+  - **Windows:** the devkitPro installer sets the system env var to
+    `DEVKITPRO=/opt/devkitpro` — the MSYS2-style path (verified in the
+    installer's NSIS script,
+    [`nsis/devkitPro.nsi` line 337](https://github.com/devkitPro/installer/blob/master/nsis/devkitPro.nsi)).
+    Native CMake/CLion can't resolve that, so a bare `$ENV{DEVKITPRO}` would
+    have **broken the Windows IDE setup the old hardcode served**. The
+    `EXISTS` check rejects it and falls back to `C:/devkitPro`.
+  - **macOS:** CLion launched from Spotlight doesn't inherit `~/.bash_profile`,
+    so the env var may be absent; the fallback lands on `/opt/devkitpro`
+    anyway. Verified: `cmake` configures identically with and without
+    `DEVKITPRO` in the environment.
 - **Stale CMake caches** in `build/` and `cmake-build-debug/` from earlier local
   runs. They don't affect `make` (which builds into `build/<game>/`), but delete
   them if CMake/CLion acts up.
@@ -302,6 +313,10 @@ alternative; fine as a secondary check, not the primary target.
   without `DEVKITARM`.
 - Fenced the `make GAME=<name>` command. It was unfenced, so `<name>` was parsed
   as an HTML tag and rendered as `make GAME=` on GitHub.
+- **Windows remains supported** — the Setup section gives per-platform paths.
+  Windows: graphical installer + build from its MSYS2 shell, plain
+  `pacman -S 3ds-dev`, env vars set by the installer. The Unix export block is
+  explicitly marked Linux/macOS-only.
 
 ## 9. Verification status
 

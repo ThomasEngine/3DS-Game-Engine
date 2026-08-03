@@ -21,18 +21,30 @@
 
 ## Setup
 
-For installing devkitPro, follow the official guide:
-[devkitPro Getting Started](https://devkitpro.org/wiki/Getting_Started)
+Install devkitPro following the official guide:
+[devkitPro Getting Started](https://devkitpro.org/wiki/Getting_Started).
+The 3DS toolchain (the `3ds-dev` package group) includes `libctru`, `citro3d`
+and `citro2d`.
 
-Then install the 3DS toolchain, which includes `libctru`, `citro3d` and `citro2d`:
+**Windows** — use the graphical installer and select 3DS development. It bundles
+an MSYS2 environment, sets `DEVKITPRO`/`DEVKITARM` automatically, and adds an
+*MSys2* shortcut to the Start menu — build from that shell. To add the 3DS
+toolchain to an existing install: `pacman -S 3ds-dev` (plain `pacman`; the
+`dkp-` prefix is only used on Linux/macOS).
+
+**Linux** — install devkitPro pacman per the guide above, then:
 
 ```sh
-dkp-pacman -S 3ds-dev
+sudo dkp-pacman -S 3ds-dev
 ```
 
-The `Makefile` requires `DEVKITARM` to be set and will refuse to run without it.
-devkitPro's installer does not reliably export it to your shell on every platform,
-so add this to your shell profile (`~/.bashrc`, `~/.bash_profile` or `~/.zshrc`):
+**macOS** — see [macOS-build.md](macOS-build.md) for verified step-by-step
+instructions, including Apple Silicon notes and known Gatekeeper issues.
+
+On Linux and macOS the `Makefile` needs `DEVKITARM` in your environment (it
+refuses to run without it), and the installer does not reliably export it to
+your shell — add this to your shell profile (`~/.bashrc`, `~/.bash_profile`
+or `~/.zshrc`):
 
 ```sh
 export DEVKITPRO=/opt/devkitpro
@@ -41,8 +53,8 @@ export DEVKITPPC=${DEVKITPRO}/devkitPPC
 export PATH=${DEVKITPRO}/tools/bin:$PATH
 ```
 
-**macOS:** see [macOS-build.md](macOS-build.md) for verified step-by-step
-instructions, including Apple Silicon notes and known Gatekeeper issues.
+On Windows this is not needed — the installer sets the variables for the MSYS2
+shell.
 
 ## Building
 

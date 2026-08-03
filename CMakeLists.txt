@@ -4,6 +4,19 @@ project(3DSEngine)
 set(CMAKE_CXX_STANDARD 17)
 add_definitions(-D__3DS__ -DARM11)
 
+# IDE indexing only — the real build is the Makefile. The DEVKITPRO env var
+# can't be used directly: on Windows the installer sets it to /opt/devkitpro
+# (an MSYS2 path native CMake can't resolve), and IDEs launched outside a
+# shell may not see it at all. Fall back to the platform's install location.
+set(DEVKITPRO "$ENV{DEVKITPRO}")
+if(NOT EXISTS "${DEVKITPRO}/libctru/include")
+    if(WIN32)
+        set(DEVKITPRO "C:/devkitPro")
+    else()
+        set(DEVKITPRO "/opt/devkitpro")
+    endif()
+endif()
+
 file(GLOB_RECURSE ENGINE_SOURCES
         "engine/source/*.cpp"
         "engine/external/cjson/cJSON.c"
@@ -14,8 +27,8 @@ target_include_directories(engine PUBLIC
         engine/include
         engine/include/systems
         engine/external/cjson
-        $ENV{DEVKITPRO}/libctru/include
-        $ENV{DEVKITPRO}/devkitARM/arm-none-eabi/include
+        ${DEVKITPRO}/libctru/include
+        ${DEVKITPRO}/devkitARM/arm-none-eabi/include
 )
 
 file(GLOB GAME_DIRS RELATIVE ${CMAKE_SOURCE_DIR}/games ${CMAKE_SOURCE_DIR}/games/*)
