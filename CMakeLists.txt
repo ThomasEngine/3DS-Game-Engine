@@ -14,8 +14,8 @@ target_include_directories(engine PUBLIC
         engine/include
         engine/include/systems
         engine/external/cjson
-        C:/devkitPro/libctru/include
-        C:/devkitPro/devkitARM/arm-none-eabi/include
+        $ENV{DEVKITPRO}/libctru/include
+        $ENV{DEVKITPRO}/devkitARM/arm-none-eabi/include
 )
 
 file(GLOB GAME_DIRS RELATIVE ${CMAKE_SOURCE_DIR}/games ${CMAKE_SOURCE_DIR}/games/*)

@@ -15,15 +15,45 @@
 - **devkitPro** with 3DS toolchain (`libctru`, `citro2d`, `citro3d`)
 - **Python 3** with Pillow (`pip install Pillow`) for the sprite slicer
 - **[Tiled](https://www.mapeditor.org/)** for editing levels
-- **[Citra](https://citra-emu.org/)** or a modded 3DS for running
+- **[Azahar](https://azahar-emu.org/)** or a modded 3DS for running
+  (Citra was discontinued in 2024; Azahar is its actively maintained successor
+  and loads `.3dsx` files directly)
 
-For installing devkitPro, follow this guide:
-[3DS Homebrew Development Getting Started](https://gbatemp.net/threads/3ds-homebrew-development-getting-started-guide.666095/)
+## Setup
 
+For installing devkitPro, follow the official guide:
+[devkitPro Getting Started](https://devkitpro.org/wiki/Getting_Started)
+
+Then install the 3DS toolchain, which includes `libctru`, `citro3d` and `citro2d`:
+
+```sh
+dkp-pacman -S 3ds-dev
+```
+
+The `Makefile` requires `DEVKITARM` to be set and will refuse to run without it.
+devkitPro's installer does not reliably export it to your shell on every platform,
+so add this to your shell profile (`~/.bashrc`, `~/.bash_profile` or `~/.zshrc`):
+
+```sh
+export DEVKITPRO=/opt/devkitpro
+export DEVKITARM=${DEVKITPRO}/devkitARM
+export DEVKITPPC=${DEVKITPRO}/devkitPPC
+export PATH=${DEVKITPRO}/tools/bin:$PATH
+```
+
+**macOS:** see [macOS-build.md](macOS-build.md) for verified step-by-step
+instructions, including Apple Silicon notes and known Gatekeeper issues.
 
 ## Building
+
+Run from the repository root:
+
+```sh
 make GAME=<name>
-Output goes to `build/<name>/<name>.3dsx`
+```
+
+Available games are the folders under `games/`: `bomberman`, `platformer`, `blank`.
+Output goes to `build/<name>/<name>.3dsx`.
 
 ## Credits
 
