@@ -55,6 +55,12 @@ make GAME=<name>
 Available games are the folders under `games/`: `bomberman`, `platformer`, `blank`.
 Output goes to `build/<name>/<name>.3dsx`.
 
+## Sending to 3ds
+You need homebrew installed on your 3ds.
+You can then put it on the sd card, or do this:
+On the 3ds homebrew launcher press Y. This will switch into netloader. Then replace the ip you see on the screen to the one below:
+`3dslink build/<name>/<name>.3dsx -a <3ds-ip>`
+
 ## Credits
 
 - [devkitPro](https://devkitpro.org/) 3DS toolchain and libraries
