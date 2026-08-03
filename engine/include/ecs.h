@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "sprite.h"
 #include "ai_state.h"
+#include "vec2.h"
 
 // Entity is an index
 using Entity = uint32_t;
@@ -23,15 +24,13 @@ enum ComponentFlags : uint32_t {
 
 // Components
 struct PositionComponent {
-    float x = 0.0f;
-    float y = 0.0f;
+    vec2 pos;
     float halfWidth = 0.45f;
     float halfHeight = 0.45f;
 };
 
 struct VelocityComponent {
-    float dx = 0.0f;
-    float dy = 0.0f;
+    vec2 dir;
 };
 
 struct GravityComponent {
@@ -66,10 +65,8 @@ struct AIComponent {
 };
 
 struct PatrolComponent {
-    float x1 = 0.0f;
-    float y1 = 0.0f;
-    float x2 = 0.0f;
-    float y2 = 0.0f;
+    vec2 pos1;
+    vec2 pos2;
     int goingToB = (int) true; // direction of travel
 };
 

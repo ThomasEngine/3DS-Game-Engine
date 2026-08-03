@@ -9,8 +9,8 @@ void Player::init(ECSWorld &world, GraphicsAssets *assets, vec2 startPos, const 
 
     world.addComponent(player, COMP_POSITION | COMP_SPRITE | COMP_VELOCITY | COMP_GRAVITY);
     world.sprite[player].sprite.init(assets->player, 1, settings);
-    world.position[player] = {startPos.x, startPos.y, 0.35, 0.45};
-    world.velocity[player] = {0.0f, 0.0f};
+    world.position[player] = {{startPos.x, startPos.y}, 0.35, 0.45};
+    world.velocity[player].dir = {0.0f, 0.0f};
 
     speed = 6.0f;
 
@@ -27,6 +27,8 @@ void Player::destroy(ECSWorld &world) {
 void Player::handleInput(ECSWorld &world, float dt) {
     int& grounded = world.gravity[entity].grounded;
 
+    vec2& vel = world.velocity[entity].dir;
+
     if (was_grounded && !grounded) {
         coyote_timer = coyote_duration;
     }
@@ -35,12 +37,12 @@ void Player::handleInput(ECSWorld &world, float dt) {
 
     // Moving left and right
     if (input::held(ACT_RIGHT)) {
-        world.velocity[entity].dx += accel * dt;
-        if (world.velocity[entity].dx > speed) world.velocity[entity].dx = speed;
+        vel.x += accel * dt;
+        if (vel.x > speed) vel.x = speed;
     }
     if (input::held(ACT_LEFT)) {
-        world.velocity[entity].dx -= accel * dt;
-        if (world.velocity[entity].dx < -speed) world.velocity[entity].dx = -speed;
+        vel.x -= accel * dt;
+        if (vel.x < -speed) vel.x = -speed;
     }
 
 
@@ -51,22 +53,22 @@ void Player::handleInput(ECSWorld &world, float dt) {
     }
 
     if (input::action_buffered(ACT_JUMP) && (grounded || coyote_timer > 0.0f) ) {
-        world.velocity[entity].dy = -world.gravity[entity].jumpForce;
+        vel.y = -world.gravity[entity].jumpForce;
         grounded = 0;
         coyote_timer = 0.0f;
 
         input::action_buffer_use(ACT_JUMP);
     }
 
-    if (input::released(ACT_JUMP) && world.velocity[entity].dy < 0) {
-        world.velocity[entity].dy *= 0.4f;
+    if (input::released(ACT_JUMP) && vel.y < 0) {
+        vel.y *= 0.4f;
     }
 
 
     if (input::pressed(KEY_X)) {
         // reset player
-        world.position[entity].x = 2;
-        world.position[entity].y = 2;
+        world.position[entity].pos.x = 2;
+        world.position[entity].pos.y = 2;
 
     }
 
@@ -76,8 +78,10 @@ void Player::handleInput(ECSWorld &world, float dt) {
 void Player::updateAnimation(ECSWorld& world) {
     Sprite& sprite = world.sprite[entity].sprite;
     bool grounded = world.gravity[entity].grounded != 0;
-    float& dx = world.velocity[entity].dx;
-    float& dy = world.velocity[entity].dy;
+
+    vec2& velocity = world.velocity[entity].dir;
+    float& dx = velocity.x;
+    float& dy = velocity.y;
     if (dx < 0.5 && dx > -0.5) {
         dx = 0;
     }
@@ -98,8 +102,3 @@ void Player::updateAnimation(ECSWorld& world) {
 bool Player::isFacingLeft(ECSWorld &world) {
     return facing_left;
 }
-
-
-
-
-

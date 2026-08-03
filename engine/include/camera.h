@@ -6,24 +6,19 @@ struct CameraSettings {
     float deadZoneH = 1.0f;
 
     float lookAheadDistance = 2.0f;
-    float lookAheadSmoothing = 3.0f;
-
-    float idleThreshold = 0.5f;
+    float lookAheadSmoothing = 3.0f; // higher is snappier
 
     // Damping higher is snappier
     float dampingX = 5.0f;
     float dampingY = 8.0f;
 
     // player offset from screen center
-    float offsetX = 0.5; // 0.5 for sprite centering (real centre)
-    float offsetY = 1.5; // player slightly below centre
+    float offsetX = 0.5; // 0.5 for sprite centering (real center)
+    float offsetY = 1.5; // player slightly below center
 
     // vertical framing
     float softDropThreshold = 5.0f; // don't track falls below this dy velocity
     float fallCatchDelay = 0.3f; // seconds before tracking fast falls
-
-    // shake
-    float shakeDecay = 5.0f;
 };
 
 struct Camera {

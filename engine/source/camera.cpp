@@ -12,7 +12,7 @@ void camera_update(ECSWorld &world, Camera &cam, int facing, float dt, const Eng
     if (!world.hasComponent(target, COMP_POSITION)) return;
 
 
-    PositionComponent targetPos = world.position[target];
+    vec2 targetPos = world.position[target].pos;
 
     float halfScreenW = 12.5 / 2.0f;
     float halfScreenH = 7.5 / 2.0f;

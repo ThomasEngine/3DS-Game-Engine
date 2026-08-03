@@ -71,7 +71,7 @@ void GameScene::renderTop() {
     world.sprite[player.getEntity()].layer = LAYER_TOP;
     // update camera to follow player
     Camera& cam = renderer->getCamera();
-    const PositionComponent& position = world.position[player.getEntity()];
+    const vec2& position = world.position[player.getEntity()].pos;
     // printX  = cam.x = position.x - SCREEN_TILES_W / 2.0f;
     // printY = cam.y = position.y - SCREEN_TILES_H / 2.0f;
 
@@ -102,7 +102,7 @@ void GameScene::renderBottom() {
     systems::render_draw(world, *renderer, RenderLayer::LAYER_BOTTOM, manager->getSettings());
 
     // DEBUG
-    const PositionComponent& position = world.position[player.getEntity()];
+    const vec2& position = world.position[player.getEntity()].pos;
 
 
     char buf[64];

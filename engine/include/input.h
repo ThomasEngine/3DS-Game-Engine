@@ -45,8 +45,6 @@ enum Action {
     ACT_COUNT
 };
 
-
-
 namespace input {
 
     void update(u32 keys_down, u32 keys_held, u32 keys_up, touchPosition touch, float dt);
