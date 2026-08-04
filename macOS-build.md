@@ -45,9 +45,10 @@ Rebuild:
   make GAME=bomberman
 ```
 
-Roll back a bad update with
-`sudo dkp-pacman -U /opt/devkitpro/pacman/var/cache/pacman/pkg/<pkg>-<oldver>-*.pkg.tar.xz`
-(cached packages from previous installs live there).
+Roll back a bad update:
+```
+sudo dkp-pacman -U /opt/devkitpro/pacman/var/cache/pacman/pkg/<pkg>-<oldver>-*.pkg.tar.xz
+```
 
 ## 4. Set the environment
 
@@ -71,19 +72,13 @@ $DEVKITARM/bin/arm-none-eabi-gcc --version
 
 ## 5. Build targets
 
-Build bomerman:
-
+Build bomberman:
 ```
-make GAME=bomberman
-```
-
-```bash
-make info GAME=bomberman
-make clean GAME=bomberman
 make clean-all
+make GAME=bomberman
+make info GAME=bomberman
 ```
-
-Replace `bomberman` by `platformer` or `blank` or other games.
+Replace 'bomberman' by other games.
 
 ## 6. Azahar emulator
 
@@ -99,7 +94,7 @@ xattr -dr com.apple.quarantine /Applications/Azahar.app
 The `xattr` line is needed since Azahar ad-hoc signed and not notarised, so it's blocked
 on the first launch by Gatekeeper. (In macOS system settings: search for Gatekeeper.)
 
-Run bomerman on Azahar:
+Run bomberman on Azahar:
 ```
 open -a Azahar build/bomberman/bomberman.3dsx
 ```
