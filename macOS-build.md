@@ -15,9 +15,7 @@ curl -L -o ~/Downloads/devkitpro-pacman-installer.pkg \
   https://github.com/devkitPro/pacman/releases/latest/download/devkitpro-pacman-installer.pkg
 sudo installer -pkg ~/Downloads/devkitpro-pacman-installer.pkg -target /
 ```
-
-If you already downloaded it via a browser:
-`sudo xattr -dr com.apple.quarantine ~/Downloads/devkitpro-pacman-installer.pkg`
+Use curl instead of a browser to avoid Gatekeeper-related problems.
 
 ## 3. Install the 3DS toolchain
 
