@@ -81,7 +81,9 @@ Replace 'bomberman' by other games.
 
 ## 6. Azahar emulator
 
-Install Azahar:
+Check `https://github.com/azahar-emu/azahar/releases/download` for the latest version
+and download the binary appropriate for the CPU architecture your mac.
+For apple silicon the architecture is `macos-arm64`. Change the file name below accordingly.
 
 ```bash
 curl -L -o ~/Downloads/azahar.zip \
