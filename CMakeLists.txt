@@ -4,10 +4,7 @@ project(3DSEngine)
 set(CMAKE_CXX_STANDARD 17)
 add_definitions(-D__3DS__ -DARM11)
 
-# IDE indexing only — the real build is the Makefile. The DEVKITPRO env var
-# can't be used directly: on Windows the installer sets it to /opt/devkitpro
-# (an MSYS2 path native CMake can't resolve), and IDEs launched outside a
-# shell may not see it at all. Fall back to the platform's install location.
+# IDE indexing only — the real build is the Makefile.
 set(DEVKITPRO "$ENV{DEVKITPRO}")
 if(NOT EXISTS "${DEVKITPRO}/libctru/include")
     if(WIN32)
