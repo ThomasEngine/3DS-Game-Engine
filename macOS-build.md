@@ -15,6 +15,7 @@ curl -L -o ~/Downloads/devkitpro-pacman-installer.pkg \
   https://github.com/devkitPro/pacman/releases/latest/download/devkitpro-pacman-installer.pkg
 sudo installer -pkg ~/Downloads/devkitpro-pacman-installer.pkg -target /
 ```
+
 Use curl instead of a browser to avoid Gatekeeper-related problems.
 
 ## 3. Install the 3DS toolchain
@@ -41,6 +42,7 @@ Rebuild:
 ```
 
 Roll back a bad update:
+
 ```
 sudo dkp-pacman -U /opt/devkitpro/pacman/var/cache/pacman/pkg/<pkg>-<oldver>-*.pkg.tar.xz
 ```
@@ -68,16 +70,19 @@ $DEVKITARM/bin/arm-none-eabi-gcc --version
 ## 5. Build targets
 
 Build bomberman:
+
 ```
 make clean-all
 make GAME=bomberman
 make info GAME=bomberman
 ```
+
 Replace 'bomberman' by other games.
 
 ## 6. Azahar emulator
 
 Install Azahar:
+
 ```bash
 curl -L -o ~/Downloads/azahar.zip \
   https://github.com/azahar-emu/azahar/releases/download/2125.1.3/azahar-macos-arm64-2125.1.3.zip
@@ -90,6 +95,7 @@ The `xattr` line is needed since Azahar ad-hoc signed and not notarised, so it's
 on the first launch by Gatekeeper. (In macOS system settings: search for Gatekeeper.)
 
 Run bomberman on Azahar:
+
 ```
 open -a Azahar build/bomberman/bomberman.3dsx
 ```
