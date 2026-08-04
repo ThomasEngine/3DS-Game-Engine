@@ -1,9 +1,6 @@
 # Building on macOS (Apple Silicon)
 
-The project is a standard devkitPro 3DS template build. Nothing in the engine or game
-sources is OS-specific: All asset paths use `romfs:/`, and the `.t3x`
-graphics are pre-built and committed. The only dependency missing on a fresh Mac is
-**devkitPro**.
+This installation guide provides the steps to install **devkitPro** on macOS.
 
 ## 1. Xcode command line tools
 
