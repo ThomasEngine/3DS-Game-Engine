@@ -26,27 +26,6 @@ sudo dkp-pacman -S 3ds-dev
 
 Optional: `sudo dkp-pacman -S 3ds-portlibs` (SDL, zlib, freetype, libpng, …).
 
-### Checking for updates later
-
-Install all updates:
-
-```bash
-sudo dkp-pacman -Syu
-```
-
-Rebuild:
-
-```bash
-  make clean-all
-  make GAME=bomberman
-```
-
-Roll back a bad update:
-
-```
-sudo dkp-pacman -U /opt/devkitpro/pacman/var/cache/pacman/pkg/<pkg>-<oldver>-*.pkg.tar.xz
-```
-
 ## 4. Set the environment
 
 Add the following env variables, e.g. to `~/.bash_profile`:
@@ -101,4 +80,34 @@ Run bomberman on Azahar:
 ```
 open -a Azahar build/bomberman/bomberman.3dsx
 ```
+
+### Checking for updates later
+
+Install all updates:
+
+```bash
+sudo dkp-pacman -Syu
+```
+
+Rebuild:
+
+```bash
+  make clean-all
+  make GAME=bomberman
+```
+
+### Roll back a bad update:
+
+Check previously cached updates:
+
+```
+ls /opt/devkitpro/pacman/var/cache/pacman/pkg
+```
+
+and run:
+```
+sudo dkp-pacman -U /opt/devkitpro/pacman/var/cache/pacman/pkg/<pkg>-<oldver>-*.pkg.tar.xz
+```
+where `<pkg-<oldver>-*.pkg.tar.xz` points to the cached version selecteded for
+reinstall.
 
