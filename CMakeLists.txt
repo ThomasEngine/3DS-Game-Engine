@@ -4,6 +4,16 @@ project(3DSEngine)
 set(CMAKE_CXX_STANDARD 17)
 add_definitions(-D__3DS__ -DARM11)
 
+# IDE indexing only — the real build is the Makefile.
+set(DEVKITPRO "$ENV{DEVKITPRO}")
+if(NOT EXISTS "${DEVKITPRO}/libctru/include")
+    if(WIN32)
+        set(DEVKITPRO "C:/devkitPro")
+    else()
+        set(DEVKITPRO "/opt/devkitpro")
+    endif()
+endif()
+
 file(GLOB_RECURSE ENGINE_SOURCES
         "engine/source/*.cpp"
         "engine/external/cjson/cJSON.c"
@@ -14,8 +24,8 @@ target_include_directories(engine PUBLIC
         engine/include
         engine/include/systems
         engine/external/cjson
-        C:/devkitPro/libctru/include
-        C:/devkitPro/devkitARM/arm-none-eabi/include
+        ${DEVKITPRO}/libctru/include
+        ${DEVKITPRO}/devkitARM/arm-none-eabi/include
 )
 
 file(GLOB GAME_DIRS RELATIVE ${CMAKE_SOURCE_DIR}/games ${CMAKE_SOURCE_DIR}/games/*)
