@@ -108,6 +108,5 @@ and run:
 ```
 sudo dkp-pacman -U /opt/devkitpro/pacman/var/cache/pacman/pkg/<pkg>-<oldver>-*.pkg.tar.xz
 ```
-where `<pkg-<oldver>-*.pkg.tar.xz` points to the cached version selecteded for
-reinstall.
+where `<pkg-<oldver>-*.pkg.tar.xz` points to the cached version selected.
 
